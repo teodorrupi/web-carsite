@@ -25,7 +25,7 @@ const theme = createMuiTheme({
 render(
     <MuiThemeProvider theme={theme}>
         <Provider store={store}>
-            <Router routes={routes} history={browserHistory}/>
+            <Router routes={routes} history={hashHistory}/>
         </Provider>
     </MuiThemeProvider>,
     document.getElementById('container')

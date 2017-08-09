@@ -5,11 +5,11 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
-import Main from './common/main.component.jsx'
-import Home from './common/home.component.jsx'
-import About from './common/about.component.jsx'
-import Car from './car/car.component.jsx'
-import CarDetail from './car/car-detail.component.jsx'
+import Main from './common/main.component'
+import Home from './common/home.component'
+import About from './common/about.component'
+import Car from './car/car.component'
+import CarDetail from './car/car-detail.component'
 
 const data = [
     {

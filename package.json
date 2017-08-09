@@ -7,7 +7,12 @@
     "watch": "webpack --watch",
     "build": "webpack",
     "serve": "serve ./public",
-    "start": "nodemon"
+    "start": "nodemon",
+    "start:dev": "webpack-dev-server --inline --content-base public/ --history-api-fallback",
+    "start:prod": "npm run build && node server.bundle.js",
+    "build:client": "webpack",
+    "build:server": "webpack --config webpack.server.config.js",
+    "buildall": "npm run build:client && npm run build:server"
   },
   "author": "Christian Nwamba",
   "license": "MIT",
@@ -20,9 +25,13 @@
     "babel-preset-react": "^6.11.1",
     "serve": "^1.4.0",
     "webpack": "^1.13.1",
-    "redux-devtools": "^3.3.2"
+    "webpack-dev-server": "^1.14.1",
+    "redux-devtools": "^3.3.2",
+    "http-server": "^0.8.5"
   },
   "dependencies": {
+    "compression": "^1.6.2",
+    "if-env": "^1.0.0",
     "express": "^4.14.0",
     "history": "^3.0.0",
     "material-ui": "^1.0.0-beta.4",

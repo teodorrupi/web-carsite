@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -103,7 +103,7 @@
 	    _react2.default.createElement(
 	        _reactRedux.Provider,
 	        { store: store },
-	        _react2.default.createElement(_reactRouter.Router, { routes: _routes2.default, history: _reactRouter.browserHistory })
+	        _react2.default.createElement(_reactRouter.Router, { routes: _routes2.default, history: _reactRouter.hashHistory })
 	    )
 	), document.getElementById('container'));
 
@@ -30556,25 +30556,25 @@
 
 	var _reactRouter = __webpack_require__(184);
 
-	var _mainComponent = __webpack_require__(292);
+	var _main = __webpack_require__(292);
 
-	var _mainComponent2 = _interopRequireDefault(_mainComponent);
+	var _main2 = _interopRequireDefault(_main);
 
-	var _homeComponent = __webpack_require__(553);
+	var _home = __webpack_require__(553);
 
-	var _homeComponent2 = _interopRequireDefault(_homeComponent);
+	var _home2 = _interopRequireDefault(_home);
 
-	var _aboutComponent = __webpack_require__(635);
+	var _about = __webpack_require__(635);
 
-	var _aboutComponent2 = _interopRequireDefault(_aboutComponent);
+	var _about2 = _interopRequireDefault(_about);
 
-	var _carComponent = __webpack_require__(636);
+	var _car = __webpack_require__(636);
 
-	var _carComponent2 = _interopRequireDefault(_carComponent);
+	var _car2 = _interopRequireDefault(_car);
 
-	var _carDetailComponent = __webpack_require__(637);
+	var _carDetail = __webpack_require__(637);
 
-	var _carDetailComponent2 = _interopRequireDefault(_carDetailComponent);
+	var _carDetail2 = _interopRequireDefault(_carDetail);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30626,11 +30626,11 @@
 
 	module.exports = _react2.default.createElement(
 	    _reactRouter.Route,
-	    { component: _mainComponent2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _homeComponent2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/cars', component: _carComponent2.default, data: data }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: _carDetailComponent2.default, data: data }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _aboutComponent2.default })
+	    { component: _main2.default },
+	    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _home2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/cars', component: _car2.default, data: data }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/cars/:id', component: _carDetail2.default, data: data }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _about2.default })
 	);
 
 /***/ }),

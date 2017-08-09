@@ -98,3 +98,6 @@ yarn.lock
 
 .DS_Store
 /.idea/
+
+
+server.bundle.js
