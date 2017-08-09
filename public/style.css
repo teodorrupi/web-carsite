@@ -1,0 +1,59 @@
+body{
+    background-color: #ededed;
+    font-family: "Open Sans";
+    /*font-size: 24px;*/
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+}
+
+a.active{
+    color: #000000 !important;
+    text-decoration: underline !important;
+}
+
+.dist-sm {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.padded-row-top{
+    padding-top: 12px;
+}
+
+.padded-row-bottom{
+    padding-bottom: 12px;
+}
+
+.img-responsive{
+    max-height: 150px;
+}
+
+.aligned-right{
+    text-align: right;
+}
+
+.sponsor-bottom{
+    position:static;
+    bottom: 0;
+    height: 10%;
+    background-color:yellow;
+
+}
+
+.full-width{
+    width: 100%;
+     margin-right: 0px;
+     margin-left: 0px;
+}
+
+.col-filter:first-of-type{
+    padding-left: 0;
+    padding-right: 5px;
+}
+
+.col-filter:last-of-type{
+    padding-right: 0;
+    padding-left: 5px;
+}
