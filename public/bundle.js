@@ -44090,7 +44090,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_FilterDrawer2.default, null)
+	                        _react2.default.createElement(_FilterDrawer2.default, { filters: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }] })
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -48198,10 +48198,6 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _propTypes = __webpack_require__(249);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-
 	var _styles = __webpack_require__(294);
 
 	var _Drawer = __webpack_require__(594);
@@ -48277,6 +48273,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by teodor on 08/08/17.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	// import PropTypes from 'prop-types';
 
 
 	var styleSheet = (0, _styles.createStyleSheet)(function (theme) {
@@ -48555,7 +48553,7 @@
 	                        _react2.default.createElement(
 	                            'div',
 	                            { className: 'col-md-12' },
-	                            _react2.default.createElement(_FilterArray2.default, { chipData: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }] })
+	                            _react2.default.createElement(_FilterArray2.default, { chipData: this.props.filters.active })
 	                        )
 	                    )
 	                ),
@@ -48577,7 +48575,21 @@
 	}(_react.Component);
 
 	FilterDrawer.propTypes = {
-	    classes: _propTypes2.default.object.isRequired
+	    classes: _react.PropTypes.object.isRequired,
+	    filters: _react.PropTypes.object(_react.PropTypes.shape({
+	        active: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	            value: _react.PropTypes.string.isRequired,
+	            text: _react.PropTypes.string.isRequired
+	        }).isRequired).isRequired
+	        // brand: PropTypes.arrayOf(PropTypes.shape({
+	        //     key: PropTypes.string.isRequired,
+	        //     label: PropTypes.string.isRequired,
+	        // }).isRequired).isRequired,
+	        // brand: PropTypes.arrayOf(PropTypes.shape({
+	        //     key: PropTypes.string.isRequired,
+	        //     label: PropTypes.string.isRequired,
+	        // }).isRequired).isRequired,
+	    }).isRequired).isRequired
 	};
 
 	exports.default = (0, _styles.withStyles)(styleSheet)(FilterDrawer);

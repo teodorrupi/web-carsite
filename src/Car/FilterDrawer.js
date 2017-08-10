@@ -1,8 +1,8 @@
 /**
  * Created by teodor on 08/08/17.
  */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component, PropTypes } from 'react';
+// import PropTypes from 'prop-types';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
@@ -211,13 +211,7 @@ class FilterDrawer extends Component {
                     </div>
                     <div className="row padded-row-bottom">
                         <div className="col-md-12">
-                            <FilterArray chipData={[
-                                { key: 0, label: 'Angular' },
-                                { key: 1, label: 'JQuery' },
-                                { key: 2, label: 'Polymer' },
-                                { key: 3, label: 'ReactJS' },
-                                { key: 4, label: 'Vue.js' },
-                            ]}/>
+                            <FilterArray chipData={this.props.filters.active}/>
                         </div>
                     </div>
                 </Paper>
@@ -247,6 +241,20 @@ class FilterDrawer extends Component {
 
 FilterDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
+    filters: PropTypes.object(PropTypes.shape({
+        active: PropTypes.arrayOf(PropTypes.shape({
+            value: PropTypes.string.isRequired,
+            text: PropTypes.string.isRequired,
+        }).isRequired).isRequired
+        // brand: PropTypes.arrayOf(PropTypes.shape({
+        //     key: PropTypes.string.isRequired,
+        //     label: PropTypes.string.isRequired,
+        // }).isRequired).isRequired,
+        // brand: PropTypes.arrayOf(PropTypes.shape({
+        //     key: PropTypes.string.isRequired,
+        //     label: PropTypes.string.isRequired,
+        // }).isRequired).isRequired,
+    }).isRequired).isRequired
 };
 
 export default withStyles(styleSheet)(FilterDrawer);

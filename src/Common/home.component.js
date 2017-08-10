@@ -28,7 +28,13 @@ class Home extends Component {
             <div>
                 {/*<FilterGrid/>*/}
                 <div className="row">
-                    <div className="col-lg-10 col-md-12 col-sm-12"><FilterDrawer/></div>
+                    <div className="col-lg-10 col-md-12 col-sm-12"><FilterDrawer filters={[
+                        { key: 0, label: 'Angular' },
+                        { key: 1, label: 'JQuery' },
+                        { key: 2, label: 'Polymer' },
+                        { key: 3, label: 'ReactJS' },
+                        { key: 4, label: 'Vue.js' },
+                    ]}/></div>
                     </div>
                 <div className="row">
                     {/*<div className="col-md-2 col-sm-4 dist-sm"><StandingFilter/></div>*/}
