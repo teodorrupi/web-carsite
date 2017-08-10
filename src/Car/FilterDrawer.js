@@ -241,10 +241,10 @@ class FilterDrawer extends Component {
 
 FilterDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
-    filters: PropTypes.object(PropTypes.shape({
+    filters: PropTypes.shape({
         active: PropTypes.arrayOf(PropTypes.shape({
-            value: PropTypes.string.isRequired,
-            text: PropTypes.string.isRequired,
+            key: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
         }).isRequired).isRequired
         // brand: PropTypes.arrayOf(PropTypes.shape({
         //     key: PropTypes.string.isRequired,
@@ -254,7 +254,7 @@ FilterDrawer.propTypes = {
         //     key: PropTypes.string.isRequired,
         //     label: PropTypes.string.isRequired,
         // }).isRequired).isRequired,
-    }).isRequired).isRequired
+    }).isRequired
 };
 
 export default withStyles(styleSheet)(FilterDrawer);

@@ -44022,10 +44022,6 @@
 
 	var _reactRedux = __webpack_require__(247);
 
-	var _propTypes = __webpack_require__(249);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-
 	var _SimpleCard = __webpack_require__(554);
 
 	var _SimpleCard2 = _interopRequireDefault(_SimpleCard);
@@ -44067,20 +44063,22 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// import PropTypes from 'prop-types';
+
 
 	var Home = function (_Component) {
 	    _inherits(Home, _Component);
 
-	    function Home() {
+	    function Home(props) {
 	        _classCallCheck(this, Home);
 
-	        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 	    }
 
 	    _createClass(Home, [{
 	        key: 'render',
 	        value: function render() {
-
+	            // const { activeFilters} = this.props.filters;
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -44090,7 +44088,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_FilterDrawer2.default, { filters: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }] })
+	                        _react2.default.createElement(_FilterDrawer2.default, { filters: { active: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }] } })
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -44110,20 +44108,26 @@
 	}(_react.Component);
 
 	Home.propTypes = {
-	    toggleDrawerOpen: _propTypes2.default.func.isRequired,
-	    toggleDrawerDock: _propTypes2.default.func.isRequired,
-	    setResponsive: _propTypes2.default.func.isRequired
+	    filters: _react.PropTypes.shape({
+	        active: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+	            key: _react.PropTypes.number.isRequired,
+	            label: _react.PropTypes.number.isRequired
+	        }).isRequired).isRequired
+	    }).isRequired
 	};
 
-	var mapStateToProps = function mapStateToProps(state) {
-	    var browser = state.browser,
-	        responsiveDrawer = state.responsiveDrawer;
+	function mapStateToProps(state) {
+	    var _ref = state || {
+	        filters: {
+	            active: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }]
+	        }
+	    },
+	        filters = _ref.filters;
 
 	    return {
-	        browser: browser,
-	        responsiveDrawer: responsiveDrawer
+	        filters: filters
 	    };
-	};
+	}
 
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
@@ -48576,10 +48580,10 @@
 
 	FilterDrawer.propTypes = {
 	    classes: _react.PropTypes.object.isRequired,
-	    filters: _react.PropTypes.object(_react.PropTypes.shape({
+	    filters: _react.PropTypes.shape({
 	        active: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	            value: _react.PropTypes.string.isRequired,
-	            text: _react.PropTypes.string.isRequired
+	            key: _react.PropTypes.string.isRequired,
+	            label: _react.PropTypes.string.isRequired
 	        }).isRequired).isRequired
 	        // brand: PropTypes.arrayOf(PropTypes.shape({
 	        //     key: PropTypes.string.isRequired,
@@ -48589,7 +48593,7 @@
 	        //     key: PropTypes.string.isRequired,
 	        //     label: PropTypes.string.isRequired,
 	        // }).isRequired).isRequired,
-	    }).isRequired).isRequired
+	    }).isRequired
 	};
 
 	exports.default = (0, _styles.withStyles)(styleSheet)(FilterDrawer);
