@@ -1,8 +1,7 @@
 /**
  * Created by teodor on 07/08/17.
  */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {PropTypes} from 'react';
 import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 import Grid from 'material-ui/Grid';
@@ -44,7 +43,7 @@ function HomeGrid(props) {
 }
 
 HomeGrid.propTypes = {
-    classes: PropTypes.object.isRequired,
+    classes: PropTypes.object,
 };
 
 export default withStyles(styleSheet)(HomeGrid);

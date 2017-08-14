@@ -22,13 +22,19 @@ const styleSheet = createStyleSheet({
     flex: {
         flex: 1,
     },
+    color:{
+        color: 'white'
+    },
+    buttonColor:{
+        color: '#1e88e5'
+    }
 });
 
 function ButtonAppBar(props) {
     const classes = props.classes;
     return (
         <div className={classes.root}>
-            <AppBar position="static">
+            <AppBar position="static" color={'inherit'}>
                 <Toolbar>
                     <IconButton color="contrast" aria-label="Menu">
                         <MenuIcon />
@@ -36,7 +42,7 @@ function ButtonAppBar(props) {
                     <Typography type="title" color="inherit" className={classes.flex}>
                         Title
                     </Typography>
-                    <Button color="contrast">Login</Button>
+                    <Button color="primary">Login</Button>
                 </Toolbar>
             </AppBar>
         </div>

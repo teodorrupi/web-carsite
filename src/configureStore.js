@@ -9,28 +9,24 @@ import rootReducer from './reducers'
 
 const loggerMiddleware = createLogger()
 
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-//
-// export default function configureStore(preloadedState) {
-//   return createStore( rootReducer, preloadedState, (composeEnhancers(applyMiddleware(
-//       thunkMiddleware,
-//       loggerMiddleware
-//       )))
-//   )
-// }
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default function configureStore(preloadedState) {
-    return createStore(
-        rootReducer,
-        preloadedState,
-        compose(
-            responsiveStoreEnhancer,
-            applyMiddleware(
-                thunkMiddleware,
-                loggerMiddleware
-            )
-        )
-
-    )
+  return createStore( rootReducer, preloadedState, (composeEnhancers(applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+      )))
+  )
 }
+
+
+// export default function configureStore(preloadedState) {
+//     return createStore(
+//         rootReducer,
+//         preloadedState,
+//         applyMiddleware(
+//             thunkMiddleware,
+//             loggerMiddleware
+//         )
+//     )
+// }

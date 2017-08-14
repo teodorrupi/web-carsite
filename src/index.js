@@ -16,7 +16,7 @@ injectTapEventPlugin();
 
 const theme = createMuiTheme({
     palette: createPalette({
-        primary: blueGrey
+        primary: blueGrey,
         // primary: common
     })
 

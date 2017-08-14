@@ -19,15 +19,14 @@ const styleSheet = createStyleSheet(theme => ({
     }
 }));
 
-function Selector(props){
-    const classes = props.classes;
-    const options = props.options;
+const Selector = ({classes, label, options, handleChange}) => {
     return(
         <div className={classes.customSelectGroup}>
-            <label htmlFor="sel1" className={classes.label}>{props.label}</label>
-            <select className="form-control customSelect" id="sel1">
+            <label htmlFor="sel1" className={classes.label}>{label}</label>
+            <select className="form-control customSelect" id="sel1" onChange={handleChange}>
+                <option id="0" value="none" selected="selected" disabled="disabled">-</option>
                 {options.map(option =>
-                    <option value={option.value}>{option.text}</option>
+                    <option id={option.id} value={option.value}>{option.label}</option>
                 )}
             </select>
         </div>
@@ -38,8 +37,9 @@ Selector.propTypes = {
     label: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         value: PropTypes.string.isRequired,
-        text: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
     }).isRequired).isRequired
 
 };

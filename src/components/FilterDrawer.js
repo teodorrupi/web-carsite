@@ -8,10 +8,6 @@ import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import InboxIcon from 'material-ui-icons/Inbox';
-import DraftsIcon from 'material-ui-icons/Drafts';
-import StarIcon from 'material-ui-icons/Star';
-import SendIcon from 'material-ui-icons/Send';
 import MailIcon from 'material-ui-icons/Mail';
 import DeleteIcon from 'material-ui-icons/Delete';
 import ReportIcon from 'material-ui-icons/Report';
@@ -69,25 +65,43 @@ const styleSheet = createStyleSheet(theme => ({
         height: '90%',
         overflowY: 'scroll'
     },
-    customListItem: {
-        paddingTop: 5,
-        paddingBottom: 5
-    },
+    // customListItem: {
+    //     paddingTop: 5,
+    //     paddingBottom: 5
+    // },
     dividerSpace: {
         marginTop: 10,
         marginBottom: 10
     }
 }));
 
+const brands = [
+    {id: 11, value: 'Mercedes Benz', label: 'Mercedes Benz'},
+    {id: 12, value: 'Volkswagen', label: 'Volkswagen'}]
+
+const year = [
+    {id: 21, value: '2017', label: '2017'},
+    {id: 22, value: '2016', label: '2016'},
+    {id: 23, value: '2015', label: '2015'},
+    {id: 24, value: '2014', label: '2014'},]
+
+const price = [
+    {id: 31, value: '10.000', label: '10.000€'},
+    {id: 32, value: '9.000', label: '9.000€'},
+    {id: 33, value: '8.000', label: '8.000€'},
+    {id: 34, value: '7.000', label: '7.000€'},]
+
 class FilterDrawer extends Component {
-    state = {
-        open: {
-            top: false,
-            left: false,
-            bottom: false,
-            right: false,
-        },
-    };
+    constructor(props){
+        super(props);
+        this.state = {
+            open: {
+                top: false,
+                left: false,
+                bottom: false,
+                right: false,
+        }}
+    }
 
     toggleDrawer = (side, open) => {
         const drawerState = {};
@@ -95,36 +109,51 @@ class FilterDrawer extends Component {
         this.setState({ open: drawerState });
     };
 
-    handleTopOpen = () => this.toggleDrawer('top', true);
-    handleTopClose = () => this.toggleDrawer('top', false);
-    handleLeftOpen = () => this.toggleDrawer('left', true);
-    handleLeftClose = () => this.toggleDrawer('left', false);
-    handleBottomOpen = () => this.toggleDrawer('bottom', true);
-    handleBottomClose = () => this.toggleDrawer('bottom', false);
+    handleDelete = (filter) => {
+        const { removeFilter } = this.props;
+        removeFilter(filter);
+    }
+
+    handleAdd = (filter) => {
+        const { addFilter } = this.props;
+        addFilter(filter);
+    }
+
     handleRightOpen = () => this.toggleDrawer('right', true);
     handleRightClose = () => this.toggleDrawer('right', false);
 
     render() {
         const classes = this.props.classes;
+        const { filters} = this.props;
 
         const mailFolderListItems = (
             <div>
+                {/*Brand*/}
                 <ListItem className={classes.customListItem}>
-                    <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
+                    <Selector label="Brand" options={brands}/>
                 </ListItem>
+                {/*Year*/}
                 <ListItem className={classes.customListItem}>
                     <div className="row full-width">
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
+                            <Selector label="Year from" options={year}/>
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
+                            <Selector label="To" options={year}/>
                         </div>
                     </div>
                 </ListItem>
-                <Divider className={classes.dividerSpace}/>
+                {/*<Divider className={classes.dividerSpace}/>*/}
+                {/*Price*/}
                 <ListItem className={classes.customListItem}>
-                    <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
+                    <div className="row full-width">
+                        <div className="col-md-6 col-sm-6 col-filter">
+                            <Selector label="Price from" options={price}/>
+                        </div>
+                        <div className="col-md-6 col-sm-6 col-filter">
+                            <Selector label="To" options={price}/>
+                        </div>
+                    </div>
                 </ListItem>
                 <ListItem className={classes.customListItem}>
                     <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
@@ -135,29 +164,6 @@ class FilterDrawer extends Component {
                 </ListItem>
                 <ListItem button>
                     <ListItemText primary="Kerko" />
-                </ListItem>
-            </div>
-        );
-
-        const otherMailFolderListItems = (
-            <div>
-                <ListItem button>
-                    <ListItemIcon>
-                        <MailIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="All mail" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <DeleteIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trash" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ReportIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Spam" />
                 </ListItem>
             </div>
         );
@@ -183,19 +189,6 @@ class FilterDrawer extends Component {
             </div>
         );
 
-        const fullList = (
-            <div>
-                <List className={classes.listFull} disablePadding>
-                    {mailFolderListItems}
-                </List>
-                <Divider />
-                <List className={classes.listFull} disablePadding>
-                    {otherMailFolderListItems}
-                </List>
-
-            </div>
-        );
-
         return (
             <div>
                 <Paper className={classes.paper}>
@@ -211,7 +204,7 @@ class FilterDrawer extends Component {
                     </div>
                     <div className="row padded-row-bottom">
                         <div className="col-md-12">
-                            <FilterArray chipData={this.props.filters.active}/>
+                            <FilterArray filters={filters} handleDelete={this.handleDelete}/>
                         </div>
                     </div>
                 </Paper>
@@ -240,21 +233,10 @@ class FilterDrawer extends Component {
 }
 
 FilterDrawer.propTypes = {
-    classes: PropTypes.object.isRequired,
-    filters: PropTypes.shape({
-        active: PropTypes.arrayOf(PropTypes.shape({
-            key: PropTypes.string.isRequired,
-            label: PropTypes.string.isRequired,
-        }).isRequired).isRequired
-        // brand: PropTypes.arrayOf(PropTypes.shape({
-        //     key: PropTypes.string.isRequired,
-        //     label: PropTypes.string.isRequired,
-        // }).isRequired).isRequired,
-        // brand: PropTypes.arrayOf(PropTypes.shape({
-        //     key: PropTypes.string.isRequired,
-        //     label: PropTypes.string.isRequired,
-        // }).isRequired).isRequired,
-    }).isRequired
+    classes: PropTypes.object,
+    filters: PropTypes.array.isRequired,
+    removeFilter: PropTypes.func.isRequired,
+    addFilter: PropTypes.func.isRequired
 };
 
 export default withStyles(styleSheet)(FilterDrawer);

@@ -8,8 +8,8 @@ import { withStyles, createStyleSheet } from 'material-ui/styles';
 import Card, { CardActions, CardContent } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import Selector from "./Selector"
-import FilterArray from "./FilterArray"
+import Selector from "../components/Selector"
+import FilterArray from "../components/FilterArray"
 
 const styleSheet = createStyleSheet(theme => ({
     card: {
