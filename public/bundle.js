@@ -82,19 +82,18 @@
 
 	var _blueGrey2 = _interopRequireDefault(_blueGrey);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _common = __webpack_require__(493);
 
-	// import common from 'material-ui/colors/common';
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var store = (0, _configureStore2.default)();
 	(0, _reactTapEventPlugin2.default)();
 
 	var theme = (0, _theme2.default)({
 	    palette: (0, _palette2.default)({
-	        primary: _blueGrey2.default
+	        primary1Color: _common.white
 	        // primary: common
 	    })
-
 	});
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -44081,13 +44080,13 @@
 	        _this.handleDelete = function (filter) {
 	            var dispatch = _this.props.dispatch;
 
-	            dispatch((0, _actions.removeFilter)(filter.key));
+	            dispatch((0, _actions.removeFilter)(filter));
 	        };
 
-	        _this.handleAdd = function (filter) {
+	        _this.handleChange = function (filter, type) {
 	            var dispatch = _this.props.dispatch;
 
-	            dispatch((0, _actions.addFilter)(filter));
+	            dispatch((0, _actions.addFilter)(filter, type));
 	        };
 
 	        return _this;
@@ -44105,37 +44104,6 @@
 	        value: function render() {
 	            var active = this.props.active;
 
-	            var homeStructure = _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(_FilterGrid2.default, null),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_FilterDrawer2.default, { filters: active })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'col-md-2 col-sm-4 dist-sm' },
-	                        _react2.default.createElement(_StandingFilter2.default, null)
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_HomeGrid2.default, null)
-	                    )
-	                ),
-	                _react2.default.createElement(_HomeGrid2.default, null),
-	                _react2.default.createElement(_DividedList2.default, null),
-	                _react2.default.createElement(_FullWidthGrid2.default, null)
-	            );
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -44145,7 +44113,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_FilterDrawer2.default, { filters: active, removeFilter: this.handleDelete, addFilter: this.handleAdd })
+	                        _react2.default.createElement(_FilterDrawer2.default, { filters: active, removeFilter: this.handleDelete, addFilter: this.handleChange })
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -44165,10 +44133,7 @@
 	}(_react.Component);
 
 	Home.propTypes = {
-	    active: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	        key: _react.PropTypes.number.isRequired,
-	        label: _react.PropTypes.string.isRequired
-	    }).isRequired).isRequired,
+	    active: _react.PropTypes.array.isRequired,
 	    dispatch: _react.PropTypes.func.isRequired
 	};
 
@@ -44866,7 +44831,9 @@
 	var Selector = function Selector(_ref) {
 	    var classes = _ref.classes,
 	        label = _ref.label,
+	        filterType = _ref.filterType,
 	        options = _ref.options,
+	        active = _ref.active,
 	        handleChange = _ref.handleChange;
 
 	    return _react2.default.createElement(
@@ -44879,16 +44846,18 @@
 	        ),
 	        _react2.default.createElement(
 	            'select',
-	            { className: 'form-control customSelect', id: 'sel1', onChange: handleChange },
+	            { className: 'form-control customSelect', id: 'sel1', value: active.value, onChange: function onChange(e) {
+	                    return handleChange(e.target.selectedOptions[0], filterType);
+	                } },
 	            _react2.default.createElement(
 	                'option',
-	                { id: '0', value: 'none', selected: 'selected', disabled: 'disabled' },
+	                { id: '0', value: 'none', disabled: 'disabled' },
 	                '-'
 	            ),
 	            options.map(function (option) {
 	                return _react2.default.createElement(
 	                    'option',
-	                    { id: option.id, value: option.value },
+	                    { key: option.key, id: option.key, value: option.value },
 	                    option.label
 	                );
 	            })
@@ -44897,14 +44866,22 @@
 	};
 
 	Selector.propTypes = {
-	    label: _react.PropTypes.string.isRequired,
 	    classes: _react.PropTypes.object.isRequired,
+	    label: _react.PropTypes.string.isRequired,
+	    filterType: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
 	    options: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-	        id: _react.PropTypes.number.isRequired,
-	        value: _react.PropTypes.string.isRequired,
-	        label: _react.PropTypes.string.isRequired
-	    }).isRequired).isRequired
-
+	        key: _react.PropTypes.number.isRequired,
+	        label: _react.PropTypes.string.isRequired,
+	        type: _react.PropTypes.string.isRequired,
+	        value: _react.PropTypes.string.isRequired
+	    }).isRequired).isRequired,
+	    active: _react.PropTypes.shape({
+	        key: _react.PropTypes.number.isRequired,
+	        label: _react.PropTypes.string.isRequired,
+	        type: _react.PropTypes.string.isRequired,
+	        value: _react.PropTypes.string.isRequired
+	    }).isRequired,
+	    handleChange: _react.PropTypes.func.isRequired
 	};
 
 	exports.default = (0, _styles.withStyles)(styleSheet)(Selector);
@@ -48379,7 +48356,7 @@
 	    };
 	});
 
-	var brands = [{ id: 11, value: 'Mercedes Benz', label: 'Mercedes Benz' }, { id: 12, value: 'Volkswagen', label: 'Volkswagen' }];
+	var brands = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
 
 	var year = [{ id: 21, value: '2017', label: '2017' }, { id: 22, value: '2016', label: '2016' }, { id: 23, value: '2015', label: '2015' }, { id: 24, value: '2014', label: '2014' }];
 
@@ -48405,10 +48382,10 @@
 	            removeFilter(filter);
 	        };
 
-	        _this.handleAdd = function (filter) {
+	        _this.handleChange = function (filter, type) {
 	            var addFilter = _this.props.addFilter;
 
-	            addFilter(filter);
+	            addFilter(filter, type);
 	        };
 
 	        _this.handleRightOpen = function () {
@@ -48442,7 +48419,9 @@
 	                _react2.default.createElement(
 	                    _List.ListItem,
 	                    { className: classes.customListItem },
-	                    _react2.default.createElement(_Selector2.default, { label: 'Brand', options: brands })
+	                    _react2.default.createElement(_Selector2.default, { label: "Brand", filterType: "brand", options: brands, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                            return ft.type == 'brand';
+	                        })[0] })
 	                ),
 	                _react2.default.createElement(
 	                    _List.ListItem,
@@ -48450,16 +48429,8 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row full-width' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-6 col-sm-6 col-filter' },
-	                            _react2.default.createElement(_Selector2.default, { label: 'Year from', options: year })
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-6 col-sm-6 col-filter' },
-	                            _react2.default.createElement(_Selector2.default, { label: 'To', options: year })
-	                        )
+	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' }),
+	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' })
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -48468,33 +48439,14 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row full-width' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-6 col-sm-6 col-filter' },
-	                            _react2.default.createElement(_Selector2.default, { label: 'Price from', options: price })
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-6 col-sm-6 col-filter' },
-	                            _react2.default.createElement(_Selector2.default, { label: 'To', options: price })
-	                        )
+	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' }),
+	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' })
 	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _List.ListItem,
-	                    { className: classes.customListItem },
-	                    _react2.default.createElement(_Selector2.default, { label: 'Marka', options: [{ value: "X", text: "X" }] })
-	                ),
-	                _react2.default.createElement(_Divider2.default, { className: classes.dividerSpace }),
-	                _react2.default.createElement(
-	                    _List.ListItem,
-	                    { className: classes.customListItem },
-	                    _react2.default.createElement(_Selector2.default, { label: 'Marka', options: [{ value: "X", text: "X" }] })
 	                ),
 	                _react2.default.createElement(
 	                    _List.ListItem,
 	                    { button: true },
-	                    _react2.default.createElement(_List.ListItemText, { primary: 'Kerko' })
+	                    _react2.default.createElement(_List.ListItemText, { primary: 'Kerko', onClick: this.handleRightClose })
 	                )
 	            );
 
@@ -48554,7 +48506,7 @@
 	                            { className: 'col-md-6 col-sm-6 col-xs-6 aligned-right' },
 	                            _react2.default.createElement(
 	                                _Button2.default,
-	                                { dense: true, onClick: this.handleRightOpen },
+	                                { disableRipple: 'true', raised: true, color: 'primary', onClick: this.handleRightOpen },
 	                                'Filtro'
 	                            )
 	                        )
@@ -51234,7 +51186,9 @@
 	    return _react2.default.createElement(
 	        'div',
 	        { className: classes.row },
-	        filters.map(function (filter) {
+	        filters.filter(function (ft) {
+	            return ft.value != 'none';
+	        }).map(function (filter) {
 	            return _react2.default.createElement(_Chip2.default, { className: classes.chip, key: filter.key, label: filter.label, onRequestDelete: function onRequestDelete() {
 	                    return handleDelete(filter);
 	                } });
@@ -51246,7 +51200,9 @@
 	    classes: _react.PropTypes.object.isRequired,
 	    filters: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 	        key: _react.PropTypes.number.isRequired,
-	        label: _react.PropTypes.string.isRequired
+	        label: _react.PropTypes.string.isRequired,
+	        type: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
+	        value: _react.PropTypes.string
 	    }).isRequired).isRequired,
 	    handleDelete: _react.PropTypes.func.isRequired
 	};
@@ -51997,6 +51953,7 @@
 	exports.getResults = getResults;
 	exports.addFilter = addFilter;
 	exports.removeFilter = removeFilter;
+	exports.filterResults = filterResults;
 	/**
 	 * Created by teodor on 10/08/17.
 	 */
@@ -52040,28 +51997,43 @@
 	var ADD_FILTER = exports.ADD_FILTER = 'ADD_FILTER';
 	var REMOVE_FILTER = exports.REMOVE_FILTER = 'REMOVE_FILTER';
 
-	function addFilter(filter, id) {
-	    var addFilter = function addFilter(value, id) {
+	function addFilter(filter, type) {
+	    var addFilter = function addFilter(value, type) {
 	        return {
 	            type: ADD_FILTER,
-	            value: value,
-	            id: id
+	            filter: value,
+	            filterType: type
 	        };
 	    };
 	    return function (dispatch, getState) {
-	        dispatch(addFilter(filter, id));
+	        dispatch(addFilter(filter, type));
 	    };
 	}
 
-	function removeFilter(id) {
-	    var removeFilter = function removeFilter(id) {
+	function removeFilter(filter) {
+	    var removeFilter = function removeFilter(value) {
 	        return {
 	            type: REMOVE_FILTER,
-	            id: id
+	            filter: value
 	        };
 	    };
 	    return function (dispatch, getState) {
-	        dispatch(removeFilter(id));
+	        dispatch(removeFilter(filter));
+	    };
+	}
+
+	var FILTER_RESULTS = exports.FILTER_RESULTS = 'FILTER_RESULTS';
+
+	function filterResults() {
+	    var filterResults = function filterResults(filters) {
+	        return {
+	            type: FILTER_RESULTS,
+	            filters: filters
+	        };
+	    };
+	    return function (dispatch, getState) {
+	        var filters = getState().filters;
+	        filterResults(filters);
 	    };
 	}
 
@@ -53994,17 +53966,20 @@
 
 	var _filters2 = _interopRequireDefault(_filters);
 
+	var _results = __webpack_require__(647);
+
+	var _results2 = _interopRequireDefault(_results);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	/**
-	 * Created by teodor on 08/08/17.
-	 */
 	var rootReducer = (0, _redux.combineReducers)({
 	    // browser: responsiveStateReducer,
 	    // responsiveDrawer: responsiveDrawer,
-	    filters: _filters2.default
-	});
-
+	    filters: _filters2.default,
+	    results: _results2.default
+	}); /**
+	     * Created by teodor on 08/08/17.
+	     */
 	exports.default = rootReducer;
 
 /***/ }),
@@ -54553,22 +54528,32 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }];
+
+	var allFilters = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
+
 	var filters = function filters() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
 	        isFetching: false,
 	        isAdding: false,
 	        isRemoving: false,
-	        active: [{ key: 0, label: 'Angular' }, { key: 1, label: 'JQuery' }, { key: 2, label: 'Polymer' }, { key: 3, label: 'ReactJS' }, { key: 4, label: 'Vue.js' }]
+	        active: startFilters
 	    };
 	    var action = arguments[1];
 
 	    switch (action.type) {
 	        case _actions.ADD_FILTER:
-	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active), [{ key: action.id, label: action.filter }]) });
+	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (ft) {
+	                    return ft.type != action.filterType;
+	                })), [allFilters.filter(function (ft) {
+	                    return ft.key == action.filter.id;
+	                })[0]]) });
 	        case _actions.REMOVE_FILTER:
-	            return Object.assign({}, state, { active: state.active.filter(function (active) {
-	                    return active.key != action.id;
-	                }) });
+	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (active) {
+	                    return active.key != action.filter.key;
+	                })), [startFilters.filter(function (ft) {
+	                    return ft.type == action.filter.type;
+	                })[0]]) });
 	        case _actions.REQUEST_RESULTS:
 	            return Object.assign({}, state, { isFetching: true, isAdding: false, isRemoving: false });
 	        case _actions.RECEIVE_RESULTS:
@@ -54611,6 +54596,57 @@
 	};
 
 	exports.default = blueGrey;
+
+/***/ }),
+/* 647 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _actions = __webpack_require__(624);
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }];
+
+	var allFilters = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
+
+	var results = function results() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+	        isFetching: false,
+	        isAdding: false,
+	        isRemoving: false,
+	        active: startFilters
+	    };
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.ADD_FILTER:
+	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (ft) {
+	                    return ft.type != action.filterType;
+	                })), [allFilters.filter(function (ft) {
+	                    return ft.key == action.filter.id;
+	                })[0]]) });
+	        case _actions.REMOVE_FILTER:
+	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (active) {
+	                    return active.key != action.filter.key;
+	                })), [startFilters.filter(function (ft) {
+	                    return ft.type == action.filter.type;
+	                })[0]]) });
+	        case _actions.REQUEST_RESULTS:
+	            return Object.assign({}, state, { isFetching: true, isAdding: false, isRemoving: false });
+	        case _actions.RECEIVE_RESULTS:
+	            return Object.assign({}, state, { isFetching: true, isAdding: false, isRemoving: false });
+	        default:
+	            return state;
+	    }
+	};
+
+	exports.default = results;
 
 /***/ })
 /******/ ]);

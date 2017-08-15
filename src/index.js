@@ -9,17 +9,16 @@ import createMuiTheme from 'material-ui/styles/theme';
 import createPalette from 'material-ui/styles/palette';
 import { MuiThemeProvider } from 'material-ui/styles';
 import blueGrey from 'material-ui/colors/blueGrey';
-// import common from 'material-ui/colors/common';
+import {white} from 'material-ui/colors/common';
 
 const store = configureStore();
 injectTapEventPlugin();
 
 const theme = createMuiTheme({
     palette: createPalette({
-        primary: blueGrey,
+        primary1Color: white,
         // primary: common
     })
-
 });
 
 render(

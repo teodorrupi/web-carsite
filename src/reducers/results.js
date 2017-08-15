@@ -13,7 +13,7 @@ const allFilters = [
     { key: 12, label: 'Volkswagen', type:'brand', value: 'Volkswagen'},
 ];
 
-const filters = (state = {
+const results = (state = {
     isFetching: false,
     isAdding: false,
     isRemoving: false,
@@ -34,4 +34,4 @@ const filters = (state = {
 
 }
 
-export default filters
+export default results

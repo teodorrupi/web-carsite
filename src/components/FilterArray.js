@@ -19,7 +19,7 @@ const styleSheet = createStyleSheet(theme => ({
 const FilterArray = ({ classes, filters, handleDelete}) => {
     return (
         <div className={classes.row}>
-            {filters.map(filter => {
+            {filters.filter(ft => ft.value!='none').map(filter => {
                 return (
                     <Chip className={classes.chip} key={filter.key} label={filter.label} onRequestDelete={() => handleDelete(filter)}/>
                 );
@@ -33,6 +33,8 @@ FilterArray.propTypes = {
     filters: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
+        type: PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
+        value: PropTypes.string,
     }).isRequired).isRequired,
     handleDelete: PropTypes.func.isRequired
 };

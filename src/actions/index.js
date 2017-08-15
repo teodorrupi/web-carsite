@@ -41,31 +41,46 @@ export function getResults() {
 export const ADD_FILTER = 'ADD_FILTER';
 export const REMOVE_FILTER = 'REMOVE_FILTER';
 
-export function addFilter(filter, id) {
-    const addFilter = (value, id) => {
+export function addFilter(filter, type) {
+    const addFilter = (value, type) => {
         return {
             type: ADD_FILTER,
-            value: value,
-            id: id
+            filter: value,
+            filterType: type
         }
     };
     return (dispatch, getState) => {
         dispatch(
-            addFilter(filter, id)
+            addFilter(filter, type)
         );
     }
 }
 
-export function removeFilter(id){
-    const removeFilter = id => {
+export function removeFilter(filter){
+    const removeFilter = value => {
         return {
             type: REMOVE_FILTER,
-            id: id
+            filter: value
         }
     };
     return (dispatch, getState) => {
         dispatch(
-            removeFilter(id)
+            removeFilter(filter)
         );
+    }
+}
+
+export const FILTER_RESULTS = 'FILTER_RESULTS';
+
+export function filterResults(){
+    const filterResults = (filters) => {
+        return {
+            type: FILTER_RESULTS,
+            filters: filters
+        }
+    };
+    return (dispatch, getState) => {
+        const filters = getState().filters
+        filterResults(filters);
     }
 }

@@ -19,14 +19,14 @@ const styleSheet = createStyleSheet(theme => ({
     }
 }));
 
-const Selector = ({classes, label, options, handleChange}) => {
+const Selector = ({classes, label, filterType, options, active, handleChange}) => {
     return(
         <div className={classes.customSelectGroup}>
             <label htmlFor="sel1" className={classes.label}>{label}</label>
-            <select className="form-control customSelect" id="sel1" onChange={handleChange}>
-                <option id="0" value="none" selected="selected" disabled="disabled">-</option>
+            <select className="form-control customSelect" id="sel1" value={active.value} onChange={(e) => handleChange(e.target.selectedOptions[0], filterType)}>
+                <option id="0" value="none" disabled="disabled">-</option>
                 {options.map(option =>
-                    <option id={option.id} value={option.value}>{option.label}</option>
+                    <option key={option.key} id={option.key} value={option.value}>{option.label}</option>
                 )}
             </select>
         </div>
@@ -34,14 +34,22 @@ const Selector = ({classes, label, options, handleChange}) => {
 }
 
 Selector.propTypes = {
-    label: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    filterType: PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
     options: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        value: PropTypes.string.isRequired,
+        key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
-    }).isRequired).isRequired
-
+        type: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+    }).isRequired).isRequired,
+    active: PropTypes.shape({
+        key: PropTypes.number.isRequired,
+        label: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+    }).isRequired,
+    handleChange: PropTypes.func.isRequired
 };
 
 export default withStyles(styleSheet)(Selector);

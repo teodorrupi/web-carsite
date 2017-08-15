@@ -5,11 +5,13 @@ import { combineReducers } from 'redux'
 import {responsiveStateReducer} from 'redux-responsive';
 import {responsiveDrawer} from 'material-ui-responsive-drawer';
 import filters from './filters'
+import results from './results'
 
 const rootReducer = combineReducers({
     // browser: responsiveStateReducer,
     // responsiveDrawer: responsiveDrawer,
-    filters
+    filters,
+    results
 })
 
 export default rootReducer

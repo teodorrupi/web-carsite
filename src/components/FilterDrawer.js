@@ -76,8 +76,8 @@ const styleSheet = createStyleSheet(theme => ({
 }));
 
 const brands = [
-    {id: 11, value: 'Mercedes Benz', label: 'Mercedes Benz'},
-    {id: 12, value: 'Volkswagen', label: 'Volkswagen'}]
+    {key: 11, label: 'Mercedes Benz', type:'brand', value: 'Mercedes Benz'},
+    {key: 12, label: 'Volkswagen', type:'brand', value: 'Volkswagen'}]
 
 const year = [
     {id: 21, value: '2017', label: '2017'},
@@ -114,9 +114,9 @@ class FilterDrawer extends Component {
         removeFilter(filter);
     }
 
-    handleAdd = (filter) => {
+    handleChange = (filter, type) => {
         const { addFilter } = this.props;
-        addFilter(filter);
+        addFilter(filter, type);
     }
 
     handleRightOpen = () => this.toggleDrawer('right', true);
@@ -128,18 +128,16 @@ class FilterDrawer extends Component {
 
         const mailFolderListItems = (
             <div>
-                {/*Brand*/}
                 <ListItem className={classes.customListItem}>
-                    <Selector label="Brand" options={brands}/>
+                    <Selector label={"Brand"} filterType={"brand"} options={brands} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='brand')[0]} />
                 </ListItem>
-                {/*Year*/}
                 <ListItem className={classes.customListItem}>
                     <div className="row full-width">
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="Year from" options={year}/>
+                            {/*<Selector label={"Year from"} options={selects.yearFrom} handleChange={this.handleChange}/>*/}
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="To" options={year}/>
+                            {/*<Selector label={"To"} options={selects.yearTo} handleChange={this.handleChange}/>*/}
                         </div>
                     </div>
                 </ListItem>
@@ -148,22 +146,15 @@ class FilterDrawer extends Component {
                 <ListItem className={classes.customListItem}>
                     <div className="row full-width">
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="Price from" options={price}/>
+                            {/*<Selector label={"Price from"} options={price} handleChange={this.handleChange}/>*/}
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
-                            <Selector label="To" options={price}/>
+                            {/*<Selector label={"To"} options={price} handleChange={this.handleChange}/>*/}
                         </div>
                     </div>
                 </ListItem>
-                <ListItem className={classes.customListItem}>
-                    <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
-                </ListItem>
-                <Divider className={classes.dividerSpace}/>
-                <ListItem className={classes.customListItem}>
-                    <Selector label="Marka" options={[{value: "X", text: "X"}]}/>
-                </ListItem>
                 <ListItem button>
-                    <ListItemText primary="Kerko" />
+                    <ListItemText primary="Kerko" onClick={this.handleRightClose}/>
                 </ListItem>
             </div>
         );
@@ -199,7 +190,7 @@ class FilterDrawer extends Component {
                             </Typography>
                         </div>
                         <div className="col-md-6 col-sm-6 col-xs-6 aligned-right">
-                            <Button dense onClick={this.handleRightOpen}>Filtro</Button>
+                            <Button disableRipple="true" raised color="primary" onClick={this.handleRightOpen}>Filtro</Button>
                         </div>
                     </div>
                     <div className="row padded-row-bottom">

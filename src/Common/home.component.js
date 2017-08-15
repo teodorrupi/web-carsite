@@ -23,36 +23,21 @@ class Home extends Component {
 
     handleDelete = (filter) => {
         const { dispatch } = this.props;
-        dispatch(removeFilter(filter.key))
+        dispatch(removeFilter(filter))
     }
 
-    handleAdd = (filter) => {
+    handleChange = (filter, type) => {
         const { dispatch } = this.props;
-        dispatch(addFilter(filter))
+        dispatch(addFilter(filter, type))
     }
 
     render(){
         const { active} = this.props;
-        const homeStructure = (
-            <div>
-                <FilterGrid/>
-                <div className="row">
-                    <div className="col-lg-10 col-md-12 col-sm-12"><FilterDrawer filters={active}/></div>
-                </div>
-                <div className="row">
-                    <div className="col-md-2 col-sm-4 dist-sm"><StandingFilter/></div>
-                    <div className="col-lg-10 col-md-12 col-sm-12"><HomeGrid/></div>
-                </div>
-                <HomeGrid/>
-                <DividedList/>
-                <FullWidthGrid/>
-            </div>
-        )
         return (
             <div>
                 <div className="row">
                     <div className="col-lg-10 col-md-12 col-sm-12">
-                        <FilterDrawer filters={active} removeFilter={this.handleDelete} addFilter={this.handleAdd}/>
+                        <FilterDrawer filters={active} removeFilter={this.handleDelete} addFilter={this.handleChange}/>
                     </div>
                 </div>
                 <div className="row">
@@ -67,10 +52,7 @@ class Home extends Component {
 
 
 Home.propTypes = {
-    active: PropTypes.arrayOf(PropTypes.shape({
-        key: PropTypes.number.isRequired,
-        label: PropTypes.string.isRequired
-    }).isRequired).isRequired,
+    active: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired
 };
 
