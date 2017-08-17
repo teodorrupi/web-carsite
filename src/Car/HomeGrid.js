@@ -22,6 +22,7 @@ const styleSheet = createStyleSheet(theme => ({
 
 function HomeGrid(props) {
     const classes = props.classes;
+    const { results } = props;
 
     return (
         <div className={classes.root}>
@@ -29,7 +30,7 @@ function HomeGrid(props) {
                 <Grid item xs={12}>
                     {/*<SimpleCard/>*/}
                     <Paper className={classes.paper}>
-                        <DividedList/>
+                        <DividedList items={results}/>
                     </Paper>
                 </Grid>
                 {/*<Grid item xs={12} sm={6}>*/}
@@ -44,6 +45,7 @@ function HomeGrid(props) {
 
 HomeGrid.propTypes = {
     classes: PropTypes.object,
+    results: PropTypes.array.isRequired
 };
 
 export default withStyles(styleSheet)(HomeGrid);

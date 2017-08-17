@@ -41,13 +41,19 @@ Selector.propTypes = {
         key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
     }).isRequired).isRequired,
     active: PropTypes.shape({
         key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        value: PropTypes.string.isRequired,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
     }).isRequired,
     handleChange: PropTypes.func.isRequired
 };

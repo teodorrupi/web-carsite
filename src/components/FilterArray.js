@@ -34,7 +34,10 @@ FilterArray.propTypes = {
         key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,
         type: PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
-        value: PropTypes.string,
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
     }).isRequired).isRequired,
     handleDelete: PropTypes.func.isRequired
 };

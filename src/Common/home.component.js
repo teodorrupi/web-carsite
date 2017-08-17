@@ -7,7 +7,7 @@ import FilterDrawer from '../components/FilterDrawer';
 import FilterGrid from '../Car/FilterGrid';
 import DividedList from '../Car/DividedList';
 import StandingFilter from '../Car/StandingFilter';
-import {getResults, addFilter, removeFilter} from '../actions'
+import {requestResults, addFilter, removeFilter, filterResults} from '../actions'
 
 import Grid from 'material-ui/Grid';
 
@@ -18,31 +18,33 @@ class Home extends Component {
 
     componentWillMount() {
         const { dispatch } = this.props;
-        dispatch(getResults())
+        dispatch(requestResults())
     }
 
     handleDelete = (filter) => {
         const { dispatch } = this.props;
         dispatch(removeFilter(filter))
+        dispatch(filterResults(filter.type))
     }
 
     handleChange = (filter, type) => {
         const { dispatch } = this.props;
         dispatch(addFilter(filter, type))
+        dispatch(filterResults(type))
     }
 
     render(){
-        const { active} = this.props;
+        const { active, list } = this.props;
         return (
             <div>
                 <div className="row">
                     <div className="col-lg-10 col-md-12 col-sm-12">
-                        <FilterDrawer filters={active} removeFilter={this.handleDelete} addFilter={this.handleChange}/>
+                        <FilterDrawer filters={active} removeFilter={this.handleDelete} addFilter={this.handleChange} results={list}/>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-lg-10 col-md-12 col-sm-12">
-                        <HomeGrid/></div>
+                        <HomeGrid results={list}/></div>
                 </div>
             </div>
         );
@@ -53,22 +55,29 @@ class Home extends Component {
 
 Home.propTypes = {
     active: PropTypes.array.isRequired,
+    list: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
-    const { filters } = state;
+    const { filters, results } = state;
     const { isFetching, isAdding, isRemoving, active} = filters || {
         isFetching: false,
         isAdding: false,
         isRemoving: false,
         active: []
     }
+
+    const { list } = results || {
+        list: []
+    }
+
     return {
         isFetching,
         isAdding,
         isRemoving,
-        active
+        active,
+        list
     }
 }
 

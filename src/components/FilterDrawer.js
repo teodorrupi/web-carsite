@@ -16,6 +16,7 @@ import Typography from 'material-ui/Typography';
 import Selector from "./Selector"
 import FilterArray from "./FilterArray"
 import Paper from 'material-ui/Paper';
+import {opts} from '../constants'
 
 
 const styleSheet = createStyleSheet(theme => ({
@@ -75,22 +76,6 @@ const styleSheet = createStyleSheet(theme => ({
     }
 }));
 
-const brands = [
-    {key: 11, label: 'Mercedes Benz', type:'brand', value: 'Mercedes Benz'},
-    {key: 12, label: 'Volkswagen', type:'brand', value: 'Volkswagen'}]
-
-const year = [
-    {id: 21, value: '2017', label: '2017'},
-    {id: 22, value: '2016', label: '2016'},
-    {id: 23, value: '2015', label: '2015'},
-    {id: 24, value: '2014', label: '2014'},]
-
-const price = [
-    {id: 31, value: '10.000', label: '10.000€'},
-    {id: 32, value: '9.000', label: '9.000€'},
-    {id: 33, value: '8.000', label: '8.000€'},
-    {id: 34, value: '7.000', label: '7.000€'},]
-
 class FilterDrawer extends Component {
     constructor(props){
         super(props);
@@ -124,17 +109,17 @@ class FilterDrawer extends Component {
 
     render() {
         const classes = this.props.classes;
-        const { filters} = this.props;
+        const { filters, results} = this.props;
 
         const mailFolderListItems = (
             <div>
                 <ListItem className={classes.customListItem}>
-                    <Selector label={"Brand"} filterType={"brand"} options={brands} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='brand')[0]} />
+                    <Selector label={"Brand"} filterType={"brand"} options={opts.brands} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='brand')[0]} />
                 </ListItem>
                 <ListItem className={classes.customListItem}>
                     <div className="row full-width">
                         <div className="col-md-6 col-sm-6 col-filter">
-                            {/*<Selector label={"Year from"} options={selects.yearFrom} handleChange={this.handleChange}/>*/}
+                            <Selector label={"Year from"} filterType={"yearFrom"} options={opts.yearFrom} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='yearFrom')[0]}/>
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
                             {/*<Selector label={"To"} options={selects.yearTo} handleChange={this.handleChange}/>*/}
@@ -186,11 +171,11 @@ class FilterDrawer extends Component {
                     <div className="row padded-row-top">
                         <div className="col-md-6 col-sm-6 col-xs-6">
                             <Typography type="body1" className={classes.title}>
-                                2034 rezultate
+                                {results.length} rezultate
                             </Typography>
                         </div>
                         <div className="col-md-6 col-sm-6 col-xs-6 aligned-right">
-                            <Button disableRipple="true" raised color="primary" onClick={this.handleRightOpen}>Filtro</Button>
+                            <Button disableRipple={true} raised color="primary" onClick={this.handleRightOpen}>Filtro</Button>
                         </div>
                     </div>
                     <div className="row padded-row-bottom">
@@ -226,6 +211,7 @@ class FilterDrawer extends Component {
 FilterDrawer.propTypes = {
     classes: PropTypes.object,
     filters: PropTypes.array.isRequired,
+    results: PropTypes.array.isRequired,
     removeFilter: PropTypes.func.isRequired,
     addFilter: PropTypes.func.isRequired
 };

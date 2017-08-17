@@ -1,6 +1,7 @@
 import { RECEIVE_RESULTS,
        REQUEST_RESULTS, ADD_FILTER, REMOVE_FILTER}
 from '../actions'
+import {opts} from '../constants'
 
 const startFilters = [
     { key: 0, label: '-', type:"brand", value:"none" },
@@ -8,10 +9,7 @@ const startFilters = [
     { key: 2, label: '-', type:"yearTo", value:"none"}
 ]
 
-const allFilters = [
-    { key: 11, label: 'Mercedes Benz', type:'brand', value: 'Mercedes Benz'},
-    { key: 12, label: 'Volkswagen', type:'brand', value: 'Volkswagen'},
-];
+const allFilters = [].concat.apply([], [opts.brands, opts.yearTo, opts.yearFrom])
 
 const filters = (state = {
     isFetching: false,

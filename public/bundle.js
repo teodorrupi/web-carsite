@@ -64,7 +64,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _configureStore = __webpack_require__(628);
+	var _configureStore = __webpack_require__(629);
 
 	var _configureStore2 = _interopRequireDefault(_configureStore);
 
@@ -78,7 +78,7 @@
 
 	var _styles = __webpack_require__(294);
 
-	var _blueGrey = __webpack_require__(646);
+	var _blueGrey = __webpack_require__(648);
 
 	var _blueGrey2 = _interopRequireDefault(_blueGrey);
 
@@ -30563,15 +30563,15 @@
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _about = __webpack_require__(625);
+	var _about = __webpack_require__(626);
 
 	var _about2 = _interopRequireDefault(_about);
 
-	var _car = __webpack_require__(626);
+	var _car = __webpack_require__(627);
 
 	var _car2 = _interopRequireDefault(_car);
 
-	var _carDetail = __webpack_require__(627);
+	var _carDetail = __webpack_require__(628);
 
 	var _carDetail2 = _interopRequireDefault(_carDetail);
 
@@ -44043,7 +44043,7 @@
 
 	var _FilterDrawer2 = _interopRequireDefault(_FilterDrawer);
 
-	var _FilterGrid = __webpack_require__(622);
+	var _FilterGrid = __webpack_require__(623);
 
 	var _FilterGrid2 = _interopRequireDefault(_FilterGrid);
 
@@ -44051,11 +44051,11 @@
 
 	var _DividedList2 = _interopRequireDefault(_DividedList);
 
-	var _StandingFilter = __webpack_require__(623);
+	var _StandingFilter = __webpack_require__(624);
 
 	var _StandingFilter2 = _interopRequireDefault(_StandingFilter);
 
-	var _actions = __webpack_require__(624);
+	var _actions = __webpack_require__(625);
 
 	var _Grid = __webpack_require__(563);
 
@@ -44081,12 +44081,14 @@
 	            var dispatch = _this.props.dispatch;
 
 	            dispatch((0, _actions.removeFilter)(filter));
+	            dispatch((0, _actions.filterResults)(filter.type));
 	        };
 
 	        _this.handleChange = function (filter, type) {
 	            var dispatch = _this.props.dispatch;
 
 	            dispatch((0, _actions.addFilter)(filter, type));
+	            dispatch((0, _actions.filterResults)(type));
 	        };
 
 	        return _this;
@@ -44097,12 +44099,14 @@
 	        value: function componentWillMount() {
 	            var dispatch = this.props.dispatch;
 
-	            dispatch((0, _actions.getResults)());
+	            dispatch((0, _actions.requestResults)());
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var active = this.props.active;
+	            var _props = this.props,
+	                active = _props.active,
+	                list = _props.list;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -44113,7 +44117,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_FilterDrawer2.default, { filters: active, removeFilter: this.handleDelete, addFilter: this.handleChange })
+	                        _react2.default.createElement(_FilterDrawer2.default, { filters: active, removeFilter: this.handleDelete, addFilter: this.handleChange, results: list })
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -44122,7 +44126,7 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'col-lg-10 col-md-12 col-sm-12' },
-	                        _react2.default.createElement(_HomeGrid2.default, null)
+	                        _react2.default.createElement(_HomeGrid2.default, { results: list })
 	                    )
 	                )
 	            );
@@ -44134,11 +44138,13 @@
 
 	Home.propTypes = {
 	    active: _react.PropTypes.array.isRequired,
+	    list: _react.PropTypes.array.isRequired,
 	    dispatch: _react.PropTypes.func.isRequired
 	};
 
 	function mapStateToProps(state) {
-	    var filters = state.filters;
+	    var filters = state.filters,
+	        results = state.results;
 
 	    var _ref = filters || {
 	        isFetching: false,
@@ -44151,11 +44157,17 @@
 	        isRemoving = _ref.isRemoving,
 	        active = _ref.active;
 
+	    var _ref2 = results || {
+	        list: []
+	    },
+	        list = _ref2.list;
+
 	    return {
 	        isFetching: isFetching,
 	        isAdding: isAdding,
 	        isRemoving: isRemoving,
-	        active: active
+	        active: active,
+	        list: list
 	    };
 	}
 
@@ -44873,13 +44885,13 @@
 	        key: _react.PropTypes.number.isRequired,
 	        label: _react.PropTypes.string.isRequired,
 	        type: _react.PropTypes.string.isRequired,
-	        value: _react.PropTypes.string.isRequired
+	        value: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }).isRequired).isRequired,
 	    active: _react.PropTypes.shape({
 	        key: _react.PropTypes.number.isRequired,
 	        label: _react.PropTypes.string.isRequired,
 	        type: _react.PropTypes.string.isRequired,
-	        value: _react.PropTypes.string.isRequired
+	        value: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }).isRequired,
 	    handleChange: _react.PropTypes.func.isRequired
 	};
@@ -46589,6 +46601,8 @@
 
 	function HomeGrid(props) {
 	    var classes = props.classes;
+	    var results = props.results;
+
 
 	    return _react2.default.createElement(
 	        'div',
@@ -46602,7 +46616,7 @@
 	                _react2.default.createElement(
 	                    _Paper2.default,
 	                    { className: classes.paper },
-	                    _react2.default.createElement(_DividedList2.default, null)
+	                    _react2.default.createElement(_DividedList2.default, { items: results })
 	                )
 	            )
 	        )
@@ -46610,7 +46624,8 @@
 	}
 
 	HomeGrid.propTypes = {
-	    classes: _react.PropTypes.object
+	    classes: _react.PropTypes.object,
+	    results: _react.PropTypes.array.isRequired
 	};
 
 	exports.default = (0, _styles.withStyles)(styleSheet)(HomeGrid);
@@ -46628,10 +46643,6 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _propTypes = __webpack_require__(249);
-
-	var _propTypes2 = _interopRequireDefault(_propTypes);
 
 	var _styles = __webpack_require__(294);
 
@@ -46653,6 +46664,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Created by teodor on 08/08/17.
+	 */
 	var styleSheet = (0, _styles.createStyleSheet)(function (theme) {
 	    return {
 	        root: {
@@ -46677,10 +46691,7 @@
 	            maxHeight: '135px'
 	        }
 	    };
-	}); /**
-	     * Created by teodor on 08/08/17.
-	     */
-
+	});
 
 	function ListDividers(props) {
 	    var classes = props.classes;
@@ -46689,371 +46700,88 @@
 	        { className: classes.bullet },
 	        '\u2022'
 	    );
+	    var items = props.items;
+
 	    return _react2.default.createElement(
 	        _List2.default,
 	        { className: classes.root },
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
+	        items.map(function (item) {
+	            return _react2.default.createElement(
 	                'div',
-	                { className: 'row' },
+	                { key: item.id },
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-3 col-sm-3' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'imageBlock' },
-	                        _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-9 col-sm-9' },
+	                    _List.ListItem,
+	                    { className: classes.contentItem },
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-8 col-sm-8' },
+	                            { className: 'col-md-3 col-sm-3' },
 	                            _react2.default.createElement(
-	                                _Typography2.default,
-	                                { type: 'title', component: 'h3' },
-	                                'Renault Twingo 1.2'
+	                                'div',
+	                                { className: 'imageBlock' },
+	                                _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-4', style: { textAlign: 'right' } },
-	                            '2.999'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-lg-12 col-md-12 col-sm-hidden' },
+	                            { className: 'col-md-9 col-sm-9' },
 	                            _react2.default.createElement(
 	                                'div',
-	                                { className: 'rbt-regMilPow' },
-	                                'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                null,
-	                                'Kombi, ',
+	                                { className: 'row' },
 	                                _react2.default.createElement(
-	                                    'b',
-	                                    null,
-	                                    'Unfallfrei'
+	                                    'div',
+	                                    { className: 'col-md-8 col-sm-8' },
+	                                    _react2.default.createElement(
+	                                        _Typography2.default,
+	                                        { type: 'title', component: 'h3' },
+	                                        item.brand
+	                                    )
 	                                ),
-	                                ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-md-4', style: { textAlign: 'right' } },
+	                                    '2.999'
+	                                )
 	                            ),
-	                            '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'row' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'col-lg-12 col-md-12 col-sm-hidden' },
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        { className: 'rbt-regMilPow' },
+	                                        'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'div',
+	                                        null,
+	                                        'Kombi, ',
+	                                        _react2.default.createElement(
+	                                            'b',
+	                                            null,
+	                                            'Unfallfrei'
+	                                        ),
+	                                        ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
+	                                    ),
+	                                    '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
+	                                )
+	                            )
 	                        )
-	                    )
-	                )
-	            )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-3 col-sm-3' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'imageBlock' },
-	                        _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
 	                    )
 	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-9 col-sm-9' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-8 col-sm-8' },
-	                            _react2.default.createElement(
-	                                _Typography2.default,
-	                                { type: 'title', component: 'h3' },
-	                                'Renault Twingo 1.2'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-4', style: { textAlign: 'right' } },
-	                            '2.999'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-lg-12 col-md-12 col-sm-hidden' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'rbt-regMilPow' },
-	                                'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                null,
-	                                'Kombi, ',
-	                                _react2.default.createElement(
-	                                    'b',
-	                                    null,
-	                                    'Unfallfrei'
-	                                ),
-	                                ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
-	                            ),
-	                            '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
-	                        )
-	                    )
-	                )
-	            )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-3 col-sm-3' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'imageBlock' },
-	                        _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-9 col-sm-9' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-8 col-sm-8' },
-	                            _react2.default.createElement(
-	                                _Typography2.default,
-	                                { type: 'title', component: 'h3' },
-	                                'Renault Twingo 1.2'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-4', style: { textAlign: 'right' } },
-	                            '2.999'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-lg-12 col-md-12 col-sm-hidden' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'rbt-regMilPow' },
-	                                'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                null,
-	                                'Kombi, ',
-	                                _react2.default.createElement(
-	                                    'b',
-	                                    null,
-	                                    'Unfallfrei'
-	                                ),
-	                                ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
-	                            ),
-	                            '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
-	                        )
-	                    )
-	                )
-	            )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-3 col-sm-3' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'imageBlock' },
-	                        _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-9 col-sm-9' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-8 col-sm-8' },
-	                            _react2.default.createElement(
-	                                _Typography2.default,
-	                                { type: 'title', component: 'h3' },
-	                                'Renault Twingo 1.2'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-4', style: { textAlign: 'right' } },
-	                            '2.999'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-lg-12 col-md-12 col-sm-hidden' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'rbt-regMilPow' },
-	                                'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                null,
-	                                'Kombi, ',
-	                                _react2.default.createElement(
-	                                    'b',
-	                                    null,
-	                                    'Unfallfrei'
-	                                ),
-	                                ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
-	                            ),
-	                            '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
-	                        )
-	                    )
-	                )
-	            )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
-	                'div',
-	                { className: 'row' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-3 col-sm-3' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'imageBlock' },
-	                        _react2.default.createElement('img', { className: 'img-responsive', src: 'https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg', alt: 'Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*T\xDCV ' })
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'col-md-9 col-sm-9' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-8 col-sm-8' },
-	                            _react2.default.createElement(
-	                                _Typography2.default,
-	                                { type: 'title', component: 'h3' },
-	                                'Renault Twingo 1.2'
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-md-4', style: { textAlign: 'right' } },
-	                            '2.999'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'col-lg-12 col-md-12 col-sm-hidden' },
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'rbt-regMilPow' },
-	                                'EZ 02/2001, 182.000\xA0km, 100\xA0kW\xA0(136\xA0PS)'
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                null,
-	                                'Kombi, ',
-	                                _react2.default.createElement(
-	                                    'b',
-	                                    null,
-	                                    'Unfallfrei'
-	                                ),
-	                                ', Diesel, Schaltgetriebe, HU 05/2018, 4/5 T\xFCren'
-	                            ),
-	                            '\u2248\u20095,9\u2009l/100km (komb.), \u2248\u2009156\u2009g CO\u2082/km (komb.)'
-	                        )
-	                    )
-	                )
-	            )
-	        ),
-	        _react2.default.createElement(_Divider2.default, null),
-	        _react2.default.createElement(
-	            _List.ListItem,
-	            { className: classes.contentItem },
-	            _react2.default.createElement(
-	                _Typography2.default,
-	                { type: 'body1', className: classes.title },
-	                'Word of the Day'
-	            ),
-	            _react2.default.createElement(
-	                _Typography2.default,
-	                { type: 'headline', component: 'h2' },
-	                'be',
-	                bull,
-	                'nev',
-	                bull,
-	                'o',
-	                bull,
-	                'lent'
-	            ),
-	            _react2.default.createElement(
-	                _Typography2.default,
-	                { type: 'body1', className: classes.pos },
-	                'adjective'
-	            ),
-	            _react2.default.createElement(
-	                _Typography2.default,
-	                { component: 'p' },
-	                'well meaning and kindly.',
-	                _react2.default.createElement('br', null),
-	                '"a benevolent smile"'
-	            )
-	        )
+	                _react2.default.createElement(_Divider2.default, null)
+	            );
+	        })
 	    );
 	}
 
 	ListDividers.propTypes = {
-	    classes: _propTypes2.default.object.isRequired
+	    classes: _react.PropTypes.object.isRequired,
+	    items: _react.PropTypes.array.isRequired
 	};
 
 	exports.default = (0, _styles.withStyles)(styleSheet)(ListDividers);
@@ -48284,6 +48012,8 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
+	var _constants = __webpack_require__(622);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48356,12 +48086,6 @@
 	    };
 	});
 
-	var brands = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
-
-	var year = [{ id: 21, value: '2017', label: '2017' }, { id: 22, value: '2016', label: '2016' }, { id: 23, value: '2015', label: '2015' }, { id: 24, value: '2014', label: '2014' }];
-
-	var price = [{ id: 31, value: '10.000', label: '10.000€' }, { id: 32, value: '9.000', label: '9.000€' }, { id: 33, value: '8.000', label: '8.000€' }, { id: 34, value: '7.000', label: '7.000€' }];
-
 	var FilterDrawer = function (_Component) {
 	    _inherits(FilterDrawer, _Component);
 
@@ -48410,7 +48134,9 @@
 	        key: 'render',
 	        value: function render() {
 	            var classes = this.props.classes;
-	            var filters = this.props.filters;
+	            var _props = this.props,
+	                filters = _props.filters,
+	                results = _props.results;
 
 
 	            var mailFolderListItems = _react2.default.createElement(
@@ -48419,7 +48145,7 @@
 	                _react2.default.createElement(
 	                    _List.ListItem,
 	                    { className: classes.customListItem },
-	                    _react2.default.createElement(_Selector2.default, { label: "Brand", filterType: "brand", options: brands, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                    _react2.default.createElement(_Selector2.default, { label: "Brand", filterType: "brand", options: _constants.opts.brands, handleChange: this.handleChange, active: filters.filter(function (ft) {
 	                            return ft.type == 'brand';
 	                        })[0] })
 	                ),
@@ -48429,7 +48155,13 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row full-width' },
-	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' }),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-md-6 col-sm-6 col-filter' },
+	                            _react2.default.createElement(_Selector2.default, { label: "Year from", filterType: "yearFrom", options: _constants.opts.yearFrom, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                                    return ft.type == 'yearFrom';
+	                                })[0] })
+	                        ),
 	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' })
 	                    )
 	                ),
@@ -48498,7 +48230,8 @@
 	                            _react2.default.createElement(
 	                                _Typography2.default,
 	                                { type: 'body1', className: classes.title },
-	                                '2034 rezultate'
+	                                results.length,
+	                                ' rezultate'
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -48506,7 +48239,7 @@
 	                            { className: 'col-md-6 col-sm-6 col-xs-6 aligned-right' },
 	                            _react2.default.createElement(
 	                                _Button2.default,
-	                                { disableRipple: 'true', raised: true, color: 'primary', onClick: this.handleRightOpen },
+	                                { disableRipple: true, raised: true, color: 'primary', onClick: this.handleRightOpen },
 	                                'Filtro'
 	                            )
 	                        )
@@ -48541,6 +48274,7 @@
 	FilterDrawer.propTypes = {
 	    classes: _react.PropTypes.object,
 	    filters: _react.PropTypes.array.isRequired,
+	    results: _react.PropTypes.array.isRequired,
 	    removeFilter: _react.PropTypes.func.isRequired,
 	    addFilter: _react.PropTypes.func.isRequired
 	};
@@ -51202,7 +50936,7 @@
 	        key: _react.PropTypes.number.isRequired,
 	        label: _react.PropTypes.string.isRequired,
 	        type: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
-	        value: _react.PropTypes.string
+	        value: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }).isRequired).isRequired,
 	    handleDelete: _react.PropTypes.func.isRequired
 	};
@@ -51727,6 +51461,27 @@
 
 /***/ }),
 /* 622 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * Created by teodor on 17/08/17.
+	 */
+
+	var items = exports.items = [{ id: 1, brand: "Mercedes Benz", year: 2015 }, { id: 2, brand: "Volkswagen", year: 2016 }, { id: 3, brand: "Volkswagen", year: 2014 }];
+
+	var opts = exports.opts = {
+	    brands: [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }],
+	    yearFrom: [{ key: 21, label: '2017', type: "yearFrom", value: 2017 }, { key: 22, label: '2016', type: "yearFrom", value: 2016 }, { key: 23, label: '2015', type: "yearFrom", value: 2015 }],
+	    yearTo: [{ key: 31, label: '2017', type: "yearTo", value: 2017 }, { key: 32, label: '2016', type: "yearTo", value: 2016 }]
+	};
+
+/***/ }),
+/* 623 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51833,7 +51588,7 @@
 	exports.default = (0, _styles.withStyles)(styleSheet)(FilterGrid);
 
 /***/ }),
-/* 623 */
+/* 624 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -51942,7 +51697,7 @@
 	exports.default = (0, _styles.withStyles)(styleSheet)(StandingFilter);
 
 /***/ }),
-/* 624 */
+/* 625 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -51950,51 +51705,104 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.getResults = getResults;
+	exports.requestResults = requestResults;
+	exports.filterResults = filterResults;
+	exports.unfilterResults = unfilterResults;
 	exports.addFilter = addFilter;
 	exports.removeFilter = removeFilter;
-	exports.filterResults = filterResults;
 	/**
 	 * Created by teodor on 10/08/17.
 	 */
 
 	var REQUEST_RESULTS = exports.REQUEST_RESULTS = 'REQUEST_RESULTS';
+
 	var RECEIVE_RESULTS = exports.RECEIVE_RESULTS = 'RECEIVE_RESULTS';
 
-	function receiveResults(response) {
-	    return {
-	        type: RECEIVE_RESULTS,
-	        items: response
-	    };
-	}
-
 	function requestResults() {
-	    return {
-	        type: REQUEST_RESULTS
+	    var requestResults = function requestResults() {
+	        return {
+	            type: REQUEST_RESULTS
+	        };
+	    };
+
+	    var receiveResults = function receiveResults() {
+	        return {
+	            type: RECEIVE_RESULTS
+	        };
+	    };
+
+	    return function (dispatch, getState) {
+	        dispatch(requestResults());
+	        dispatch(receiveResults());
 	    };
 	}
 
-	function getResults() {
+	var FILTER_RESULTS = exports.FILTER_RESULTS = 'FILTER_RESULTS';
+
+	function filterResults(filterType) {
+	    var filterResults = function filterResults(filters, filterType) {
+	        return {
+	            type: FILTER_RESULTS,
+	            filters: filters,
+	            filterType: filterType
+	        };
+	    };
 	    return function (dispatch, getState) {
-	        var results = getState().filters;
-	        dispatch(requestResults());
-	        // jQuery.ajax({
-	        //     async: false,
-	        //     type: "GET",
-	        //     url: AJS.contextPath() + GET_EXECUTION_API_URL,
-	        //     data: data,
-	        //     success: function (response) {
-	        //         return dispatch(receiveExecutableRows(response))
-	        //     },
-	        //     error: function (xhr, ajaxOptions, thrownError) {
-	        //         console.log("[Error] " + thrownError);
-	        //     }
-	        // });
-	        // return dispatch(receiveResults(response))
+	        var filters = getState().filters;
+	        dispatch(filterResults(filters, filterType));
 	    };
 	}
+
+	var UNFILTER_RESULTS = exports.UNFILTER_RESULTS = 'UNFILTER_RESULTS';
+
+	function unfilterResults() {
+	    var filterResults = function filterResults(filters) {
+	        return {
+	            type: UNFILTER_RESULTS,
+	            filters: filters
+	        };
+	    };
+	    return function (dispatch, getState) {
+	        var filters = getState().filters;
+	        dispatch(unfilterResults(filters));
+	    };
+	}
+
+	// function receiveResults(response) {
+	//     return {
+	//         type: RECEIVE_RESULTS,
+	//         items: response
+	//     }
+	// }
+	//
+	// function requestResults() {
+	//     return {
+	//         type: REQUEST_RESULTS
+	//     }
+	// }
+	//
+	// export function getResults() {
+	//     return (dispatch, getState) => {
+	//         const results = getState().filters
+	//         dispatch(requestResults())
+	//         // jQuery.ajax({
+	//         //     async: false,
+	//         //     type: "GET",
+	//         //     url: AJS.contextPath() + GET_EXECUTION_API_URL,
+	//         //     data: data,
+	//         //     success: function (response) {
+	//         //         return dispatch(receiveExecutableRows(response))
+	//         //     },
+	//         //     error: function (xhr, ajaxOptions, thrownError) {
+	//         //         console.log("[Error] " + thrownError);
+	//         //     }
+	//         // });
+	//         // return dispatch(receiveResults(response))
+	//     }
+	// }
 
 	var ADD_FILTER = exports.ADD_FILTER = 'ADD_FILTER';
+
 	var REMOVE_FILTER = exports.REMOVE_FILTER = 'REMOVE_FILTER';
 
 	function addFilter(filter, type) {
@@ -52022,23 +51830,8 @@
 	    };
 	}
 
-	var FILTER_RESULTS = exports.FILTER_RESULTS = 'FILTER_RESULTS';
-
-	function filterResults() {
-	    var filterResults = function filterResults(filters) {
-	        return {
-	            type: FILTER_RESULTS,
-	            filters: filters
-	        };
-	    };
-	    return function (dispatch, getState) {
-	        var filters = getState().filters;
-	        filterResults(filters);
-	    };
-	}
-
 /***/ }),
-/* 625 */
+/* 626 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52087,7 +51880,7 @@
 	exports.default = About;
 
 /***/ }),
-/* 626 */
+/* 627 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52160,7 +51953,7 @@
 	exports.default = Car;
 
 /***/ }),
-/* 627 */
+/* 628 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52302,7 +52095,7 @@
 	exports.default = CarDetail;
 
 /***/ }),
-/* 628 */
+/* 629 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -52314,17 +52107,17 @@
 
 	var _redux = __webpack_require__(258);
 
-	var _reduxThunk = __webpack_require__(629);
+	var _reduxThunk = __webpack_require__(630);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
-	var _reduxResponsive = __webpack_require__(630);
+	var _reduxResponsive = __webpack_require__(631);
 
-	var _reduxLogger = __webpack_require__(631);
+	var _reduxLogger = __webpack_require__(632);
 
 	var _reduxLogger2 = _interopRequireDefault(_reduxLogger);
 
-	var _reducers = __webpack_require__(637);
+	var _reducers = __webpack_require__(638);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -52353,7 +52146,7 @@
 	// }
 
 /***/ }),
-/* 629 */
+/* 630 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -52381,7 +52174,7 @@
 	exports['default'] = thunk;
 
 /***/ }),
-/* 630 */
+/* 631 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	(function webpackUniversalModuleDefinition(root, factory) {
@@ -53060,7 +52853,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 631 */
+/* 632 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53072,11 +52865,11 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _core = __webpack_require__(632);
+	var _core = __webpack_require__(633);
 
-	var _helpers = __webpack_require__(633);
+	var _helpers = __webpack_require__(634);
 
-	var _defaults = __webpack_require__(636);
+	var _defaults = __webpack_require__(637);
 
 	var _defaults2 = _interopRequireDefault(_defaults);
 
@@ -53198,7 +52991,7 @@
 
 
 /***/ }),
-/* 632 */
+/* 633 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53211,9 +53004,9 @@
 
 	exports.printBuffer = printBuffer;
 
-	var _helpers = __webpack_require__(633);
+	var _helpers = __webpack_require__(634);
 
-	var _diff = __webpack_require__(634);
+	var _diff = __webpack_require__(635);
 
 	var _diff2 = _interopRequireDefault(_diff);
 
@@ -53344,7 +53137,7 @@
 	}
 
 /***/ }),
-/* 633 */
+/* 634 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -53368,7 +53161,7 @@
 	var timer = exports.timer = typeof performance !== "undefined" && performance !== null && typeof performance.now === "function" ? performance : Date;
 
 /***/ }),
-/* 634 */
+/* 635 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53378,7 +53171,7 @@
 	});
 	exports.default = diffLogger;
 
-	var _deepDiff = __webpack_require__(635);
+	var _deepDiff = __webpack_require__(636);
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
@@ -53467,7 +53260,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 635 */
+/* 636 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -53896,7 +53689,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 636 */
+/* 637 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -53947,7 +53740,7 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 637 */
+/* 638 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53958,11 +53751,11 @@
 
 	var _redux = __webpack_require__(258);
 
-	var _reduxResponsive = __webpack_require__(630);
+	var _reduxResponsive = __webpack_require__(631);
 
-	var _materialUiResponsiveDrawer = __webpack_require__(638);
+	var _materialUiResponsiveDrawer = __webpack_require__(639);
 
-	var _filters = __webpack_require__(645);
+	var _filters = __webpack_require__(646);
 
 	var _filters2 = _interopRequireDefault(_filters);
 
@@ -53983,14 +53776,14 @@
 	exports.default = rootReducer;
 
 /***/ }),
-/* 638 */
+/* 639 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	exports.__esModule = true;
 
-	var _responsiveDrawer = __webpack_require__(639);
+	var _responsiveDrawer = __webpack_require__(640);
 
 	Object.defineProperty(exports, 'responsiveDrawer', {
 	  enumerable: true,
@@ -53999,7 +53792,7 @@
 	  }
 	});
 
-	var _responsiveDrawer2 = __webpack_require__(640);
+	var _responsiveDrawer2 = __webpack_require__(641);
 
 	Object.defineProperty(exports, 'toggleDrawerOpen', {
 	  enumerable: true,
@@ -54026,7 +53819,7 @@
 	  }
 	});
 
-	var _ResponsiveDrawer = __webpack_require__(641);
+	var _ResponsiveDrawer = __webpack_require__(642);
 
 	Object.defineProperty(exports, 'ResponsiveDrawer', {
 	  enumerable: true,
@@ -54035,7 +53828,7 @@
 	  }
 	});
 
-	var _BodyContainer = __webpack_require__(643);
+	var _BodyContainer = __webpack_require__(644);
 
 	Object.defineProperty(exports, 'BodyContainer', {
 	  enumerable: true,
@@ -54044,7 +53837,7 @@
 	  }
 	});
 
-	var _ResponsiveAppBar = __webpack_require__(644);
+	var _ResponsiveAppBar = __webpack_require__(645);
 
 	Object.defineProperty(exports, 'ResponsiveAppBar', {
 	  enumerable: true,
@@ -54056,7 +53849,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 639 */
+/* 640 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54065,7 +53858,7 @@
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _responsiveDrawer = __webpack_require__(640);
+	var _responsiveDrawer = __webpack_require__(641);
 
 	var initialState = {
 		docked: false,
@@ -54109,7 +53902,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 640 */
+/* 641 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -54151,7 +53944,7 @@
 	}
 
 /***/ }),
-/* 641 */
+/* 642 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -54170,13 +53963,13 @@
 
 	var _reactRedux = __webpack_require__(247);
 
-	var _responsiveDrawer = __webpack_require__(640);
+	var _responsiveDrawer = __webpack_require__(641);
 
 	var _Drawer = __webpack_require__(594);
 
 	var _Drawer2 = _interopRequireDefault(_Drawer);
 
-	var _drawerHelper = __webpack_require__(642);
+	var _drawerHelper = __webpack_require__(643);
 
 	var _drawerHelper2 = _interopRequireDefault(_drawerHelper);
 
@@ -54256,7 +54049,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 642 */
+/* 643 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -54270,7 +54063,7 @@
 	}
 
 /***/ }),
-/* 643 */
+/* 644 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -54289,9 +54082,9 @@
 
 	var _reactRedux = __webpack_require__(247);
 
-	var _responsiveDrawer = __webpack_require__(640);
+	var _responsiveDrawer = __webpack_require__(641);
 
-	var _drawerHelper = __webpack_require__(642);
+	var _drawerHelper = __webpack_require__(643);
 
 	var _drawerHelper2 = _interopRequireDefault(_drawerHelper);
 
@@ -54378,7 +54171,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 644 */
+/* 645 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -54397,9 +54190,9 @@
 
 	var _reactRedux = __webpack_require__(247);
 
-	var _responsiveDrawer = __webpack_require__(640);
+	var _responsiveDrawer = __webpack_require__(641);
 
-	var _drawerHelper = __webpack_require__(642);
+	var _drawerHelper = __webpack_require__(643);
 
 	var _drawerHelper2 = _interopRequireDefault(_drawerHelper);
 
@@ -54515,7 +54308,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 645 */
+/* 646 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -54524,13 +54317,15 @@
 	    value: true
 	});
 
-	var _actions = __webpack_require__(624);
+	var _actions = __webpack_require__(625);
+
+	var _constants = __webpack_require__(622);
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }];
 
-	var allFilters = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
+	var allFilters = [].concat.apply([], [_constants.opts.brands, _constants.opts.yearTo, _constants.opts.yearFrom]);
 
 	var filters = function filters() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
@@ -54566,7 +54361,65 @@
 	exports.default = filters;
 
 /***/ }),
-/* 646 */
+/* 647 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _actions = __webpack_require__(625);
+
+	var _constants = __webpack_require__(622);
+
+	var startResults = _constants.items;
+
+	var results = function results() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+	        isFetching: false,
+	        list: [{}]
+	    };
+	    var action = arguments[1];
+
+	    switch (action.type) {
+	        case _actions.REQUEST_RESULTS:
+	            return Object.assign({}, state, { isFetching: true });
+	        case _actions.RECEIVE_RESULTS:
+	            return Object.assign({}, state, { isFetching: false, list: startResults });
+	        case _actions.FILTER_RESULTS:
+	            var valid_filters = action.filters.active.filter(function (ft) {
+	                return ft.value != 'none';
+	            });
+	            var result = startResults;
+	            for (var i = 0; i < valid_filters.length; i++) {
+	                var to = /To$/;
+	                var from = /From$/;
+	                if (valid_filters[i].type.endsWith('From')) {
+	                    result = result.filter(function (res) {
+	                        return res[valid_filters[i].type.replace(from, "")] >= valid_filters[i].value;
+	                    });
+	                } else if (valid_filters[i].type.endsWith('To')) {
+	                    result = result.filter(function (res) {
+	                        return res[valid_filters[i].type.replace(to, "")] <= valid_filters[i].value;
+	                    });
+	                } else {
+	                    result = result.filter(function (res) {
+	                        return res[valid_filters[i].type] == valid_filters[i].value;
+	                    });
+	                }
+	            }
+	            return Object.assign({}, state, { list: result });
+	        default:
+	            return state;
+	    }
+	};
+
+	exports.default = results;
+
+/***/ }),
+/* 648 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -54596,57 +54449,6 @@
 	};
 
 	exports.default = blueGrey;
-
-/***/ }),
-/* 647 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _actions = __webpack_require__(624);
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }];
-
-	var allFilters = [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }];
-
-	var results = function results() {
-	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-	        isFetching: false,
-	        isAdding: false,
-	        isRemoving: false,
-	        active: startFilters
-	    };
-	    var action = arguments[1];
-
-	    switch (action.type) {
-	        case _actions.ADD_FILTER:
-	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (ft) {
-	                    return ft.type != action.filterType;
-	                })), [allFilters.filter(function (ft) {
-	                    return ft.key == action.filter.id;
-	                })[0]]) });
-	        case _actions.REMOVE_FILTER:
-	            return Object.assign({}, state, { active: [].concat(_toConsumableArray(state.active.filter(function (active) {
-	                    return active.key != action.filter.key;
-	                })), [startFilters.filter(function (ft) {
-	                    return ft.type == action.filter.type;
-	                })[0]]) });
-	        case _actions.REQUEST_RESULTS:
-	            return Object.assign({}, state, { isFetching: true, isAdding: false, isRemoving: false });
-	        case _actions.RECEIVE_RESULTS:
-	            return Object.assign({}, state, { isFetching: true, isAdding: false, isRemoving: false });
-	        default:
-	            return state;
-	    }
-	};
-
-	exports.default = results;
 
 /***/ })
 /******/ ]);
