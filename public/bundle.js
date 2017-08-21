@@ -44880,7 +44880,7 @@
 	Selector.propTypes = {
 	    classes: _react.PropTypes.object.isRequired,
 	    label: _react.PropTypes.string.isRequired,
-	    filterType: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
+	    filterType: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'karburant', 'location', 'getriebe']),
 	    options: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 	        key: _react.PropTypes.number.isRequired,
 	        label: _react.PropTypes.string.isRequired,
@@ -46717,7 +46717,7 @@
 	                        { className: 'row' },
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-3 col-sm-3' },
+	                            { className: 'col-md-3 col-sm-3 col-xs-4' },
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'imageBlock' },
@@ -46726,22 +46726,18 @@
 	                        ),
 	                        _react2.default.createElement(
 	                            'div',
-	                            { className: 'col-md-9 col-sm-9' },
+	                            { className: 'col-md-9 col-sm-9 col-xs-8' },
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'row' },
 	                                _react2.default.createElement(
 	                                    'div',
-	                                    { className: 'col-md-8 col-sm-8' },
-	                                    _react2.default.createElement(
-	                                        _Typography2.default,
-	                                        { type: 'title', component: 'h3' },
-	                                        item.brand
-	                                    )
+	                                    { className: 'col-md-8 col-sm-8 col-xs-8' },
+	                                    item.brand
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
-	                                    { className: 'col-md-4', style: { textAlign: 'right' } },
+	                                    { className: 'col-md-4 col-sm-4 col-xs-4', style: { textAlign: 'right' } },
 	                                    '2.999'
 	                                )
 	                            ),
@@ -48162,7 +48158,13 @@
 	                                    return ft.type == 'yearFrom';
 	                                })[0] })
 	                        ),
-	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' })
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-md-6 col-sm-6 col-filter' },
+	                            _react2.default.createElement(_Selector2.default, { label: "Year to", filterType: "yearTo", options: _constants.opts.yearTo, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                                    return ft.type == 'yearTo';
+	                                })[0] })
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -48171,9 +48173,42 @@
 	                    _react2.default.createElement(
 	                        'div',
 	                        { className: 'row full-width' },
-	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' }),
-	                        _react2.default.createElement('div', { className: 'col-md-6 col-sm-6 col-filter' })
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-md-6 col-sm-6 col-filter' },
+	                            _react2.default.createElement(_Selector2.default, { label: "Price from", filterType: "priceFrom", options: _constants.opts.priceFrom, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                                    return ft.type == 'priceFrom';
+	                                })[0] })
+	                        ),
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'col-md-6 col-sm-6 col-filter' },
+	                            _react2.default.createElement(_Selector2.default, { label: "Price to", filterType: "priceTo", options: _constants.opts.priceTo, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                                    return ft.type == 'priceTo';
+	                                })[0] })
+	                        )
 	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _List.ListItem,
+	                    { className: classes.customListItem },
+	                    _react2.default.createElement(_Selector2.default, { label: "Karburant", filterType: "karburant", options: _constants.opts.karburant, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                            return ft.type == 'karburant';
+	                        })[0] })
+	                ),
+	                _react2.default.createElement(
+	                    _List.ListItem,
+	                    { className: classes.customListItem },
+	                    _react2.default.createElement(_Selector2.default, { label: "Location", filterType: "location", options: _constants.opts.location, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                            return ft.type == 'location';
+	                        })[0] })
+	                ),
+	                _react2.default.createElement(
+	                    _List.ListItem,
+	                    { className: classes.customListItem },
+	                    _react2.default.createElement(_Selector2.default, { label: "Getriebe", filterType: "getriebe", options: _constants.opts.getriebe, handleChange: this.handleChange, active: filters.filter(function (ft) {
+	                            return ft.type == 'getriebe';
+	                        })[0] })
 	                ),
 	                _react2.default.createElement(
 	                    _List.ListItem,
@@ -50923,7 +50958,7 @@
 	        filters.filter(function (ft) {
 	            return ft.value != 'none';
 	        }).map(function (filter) {
-	            return _react2.default.createElement(_Chip2.default, { className: classes.chip, key: filter.key, label: filter.label, onRequestDelete: function onRequestDelete() {
+	            return _react2.default.createElement(_Chip2.default, { className: classes.chip, key: filter.key, label: filter.type + ": " + filter.label, onRequestDelete: function onRequestDelete() {
 	                    return handleDelete(filter);
 	                } });
 	        })
@@ -50935,7 +50970,7 @@
 	    filters: _react.PropTypes.arrayOf(_react.PropTypes.shape({
 	        key: _react.PropTypes.number.isRequired,
 	        label: _react.PropTypes.string.isRequired,
-	        type: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
+	        type: _react.PropTypes.oneOf(['brand', 'yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'karburant', 'location', 'getriebe']),
 	        value: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.number])
 	    }).isRequired).isRequired,
 	    handleDelete: _react.PropTypes.func.isRequired
@@ -51463,7 +51498,7 @@
 /* 622 */
 /***/ (function(module, exports) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -51472,12 +51507,17 @@
 	 * Created by teodor on 17/08/17.
 	 */
 
-	var items = exports.items = [{ id: 1, brand: "Mercedes Benz", year: 2015 }, { id: 2, brand: "Volkswagen", year: 2016 }, { id: 3, brand: "Volkswagen", year: 2014 }];
+	var items = exports.items = [{ id: 1, brand: "Mercedes Benz", year: 2015, price: 12000, karburant: 'Petrol', location: 'Tirane', getriebe: 'Manual' }, { id: 2, brand: "Volkswagen", year: 2016, price: 8000, karburant: 'Petrol', location: 'Tirane', getriebe: 'Manual' }, { id: 3, brand: "Volkswagen", year: 2014, price: 20000, karburant: 'Diesel', location: 'Tirane', getriebe: 'Automatic' }];
 
 	var opts = exports.opts = {
 	    brands: [{ key: 11, label: 'Mercedes Benz', type: 'brand', value: 'Mercedes Benz' }, { key: 12, label: 'Volkswagen', type: 'brand', value: 'Volkswagen' }],
 	    yearFrom: [{ key: 21, label: '2017', type: "yearFrom", value: 2017 }, { key: 22, label: '2016', type: "yearFrom", value: 2016 }, { key: 23, label: '2015', type: "yearFrom", value: 2015 }],
-	    yearTo: [{ key: 31, label: '2017', type: "yearTo", value: 2017 }, { key: 32, label: '2016', type: "yearTo", value: 2016 }]
+	    yearTo: [{ key: 31, label: '2017', type: "yearTo", value: 2017 }, { key: 32, label: '2016', type: "yearTo", value: 2016 }],
+	    priceFrom: [{ key: 41, label: '10.000', type: "priceFrom", value: 10000 }, { key: 42, label: '12.000', type: "priceFrom", value: 11000 }, { key: 43, label: '13.000', type: "priceFrom", value: 12000 }],
+	    priceTo: [{ key: 51, label: '15.000', type: "priceTo", value: 15000 }, { key: 52, label: '16.000', type: "priceTo", value: 16000 }],
+	    karburant: [{ key: 61, label: 'Petrol', type: "karburant", value: 'Petrol' }, { key: 62, label: 'Diesel', type: "karburant", value: 'Diesel' }],
+	    location: [{ key: 71, label: 'Durres', type: "location", value: 'Durres' }, { key: 72, label: 'Tirane', type: "location", value: 'Tirane' }],
+	    getriebe: [{ key: 81, label: 'Automatic', type: "getriebe", value: 'Automatic' }, { key: 82, label: 'Manual', type: "getriebe", value: 'Manual' }]
 	};
 
 /***/ }),
@@ -54323,9 +54363,9 @@
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }];
+	var startFilters = [{ key: 0, label: '-', type: "brand", value: "none" }, { key: 1, label: '-', type: "yearFrom", value: "none" }, { key: 2, label: '-', type: "yearTo", value: "none" }, { key: 3, label: '-', type: "priceFrom", value: "none" }, { key: 4, label: '-', type: "priceTo", value: "none" }, { key: 5, label: '-', type: "karburant", value: "none" }, { key: 6, label: '-', type: "location", value: "none" }, { key: 7, label: '-', type: "getriebe", value: "none" }];
 
-	var allFilters = [].concat.apply([], [_constants.opts.brands, _constants.opts.yearTo, _constants.opts.yearFrom]);
+	var allFilters = [].concat.apply([], [_constants.opts.brands, _constants.opts.yearTo, _constants.opts.yearFrom, _constants.opts.priceFrom, _constants.opts.priceTo, _constants.opts.location, _constants.opts.getriebe, _constants.opts.karburant]);
 
 	var filters = function filters() {
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {

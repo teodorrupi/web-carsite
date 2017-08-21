@@ -6,10 +6,16 @@ import {opts} from '../constants'
 const startFilters = [
     { key: 0, label: '-', type:"brand", value:"none" },
     { key: 1, label: '-', type:"yearFrom", value:"none"},
-    { key: 2, label: '-', type:"yearTo", value:"none"}
+    { key: 2, label: '-', type:"yearTo", value:"none"},
+    { key: 3, label: '-', type:"priceFrom", value:"none"},
+    { key: 4, label: '-', type:"priceTo", value:"none"},
+    { key: 5, label: '-', type:"karburant", value:"none"},
+    { key: 6, label: '-', type:"location", value:"none"},
+    { key: 7, label: '-', type:"getriebe", value:"none"},
+
 ]
 
-const allFilters = [].concat.apply([], [opts.brands, opts.yearTo, opts.yearFrom])
+const allFilters = [].concat.apply([], [opts.brands, opts.yearTo, opts.yearFrom, opts.priceFrom, opts.priceTo, opts.location, opts.getriebe, opts.karburant])
 
 const filters = (state = {
     isFetching: false,

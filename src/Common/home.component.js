@@ -42,6 +42,7 @@ class Home extends Component {
                         <FilterDrawer filters={active} removeFilter={this.handleDelete} addFilter={this.handleChange} results={list}/>
                     </div>
                 </div>
+                <
                 <div className="row">
                     <div className="col-lg-10 col-md-12 col-sm-12">
                         <HomeGrid results={list}/></div>

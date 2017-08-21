@@ -31,9 +31,9 @@
   },
   "dependencies": {
     "compression": "^1.6.2",
-    "if-env": "^1.0.0",
     "express": "^4.14.0",
     "history": "^3.0.0",
+    "if-env": "^1.0.0",
     "material-ui": "^1.0.0-beta.4",
     "material-ui-icons": "^1.0.0-alpha.19",
     "material-ui-responsive-drawer": "^1.1.31",
@@ -45,6 +45,7 @@
     "react-redux": "^5.0.2",
     "react-router": "^2.6.1",
     "react-tap-event-plugin": "^2.0.1",
+    "react-toolbox": "^2.0.0-beta.12",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-responsive": "^4.3.2",

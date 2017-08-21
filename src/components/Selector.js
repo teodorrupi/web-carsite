@@ -36,7 +36,7 @@ const Selector = ({classes, label, filterType, options, active, handleChange}) =
 Selector.propTypes = {
     classes: PropTypes.object.isRequired,
     label: PropTypes.string.isRequired,
-    filterType: PropTypes.oneOf(['brand', 'yearFrom', 'yearTo']),
+    filterType: PropTypes.oneOf(['brand', 'yearFrom', 'yearTo', 'priceFrom', 'priceTo', 'karburant', 'location', 'getriebe']),
     options: PropTypes.arrayOf(PropTypes.shape({
         key: PropTypes.number.isRequired,
         label: PropTypes.string.isRequired,

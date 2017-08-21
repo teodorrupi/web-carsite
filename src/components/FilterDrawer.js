@@ -122,21 +122,28 @@ class FilterDrawer extends Component {
                             <Selector label={"Year from"} filterType={"yearFrom"} options={opts.yearFrom} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='yearFrom')[0]}/>
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
-                            {/*<Selector label={"To"} options={selects.yearTo} handleChange={this.handleChange}/>*/}
+                            <Selector label={"Year to"} filterType={"yearTo"} options={opts.yearTo} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='yearTo')[0]}/>
                         </div>
                     </div>
                 </ListItem>
-                {/*<Divider className={classes.dividerSpace}/>*/}
-                {/*Price*/}
                 <ListItem className={classes.customListItem}>
                     <div className="row full-width">
                         <div className="col-md-6 col-sm-6 col-filter">
-                            {/*<Selector label={"Price from"} options={price} handleChange={this.handleChange}/>*/}
+                            <Selector label={"Price from"} filterType={"priceFrom"} options={opts.priceFrom} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='priceFrom')[0]}/>
                         </div>
                         <div className="col-md-6 col-sm-6 col-filter">
-                            {/*<Selector label={"To"} options={price} handleChange={this.handleChange}/>*/}
+                            <Selector label={"Price to"} filterType={"priceTo"} options={opts.priceTo} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='priceTo')[0]}/>
                         </div>
                     </div>
+                </ListItem>
+                <ListItem className={classes.customListItem}>
+                    <Selector label={"Karburant"} filterType={"karburant"} options={opts.karburant} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='karburant')[0]} />
+                </ListItem>
+                <ListItem className={classes.customListItem}>
+                    <Selector label={"Location"} filterType={"location"} options={opts.location} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='location')[0]} />
+                </ListItem>
+                <ListItem className={classes.customListItem}>
+                    <Selector label={"Getriebe"} filterType={"getriebe"} options={opts.getriebe} handleChange={this.handleChange} active={filters.filter(ft=>ft.type=='getriebe')[0]} />
                 </ListItem>
                 <ListItem button>
                     <ListItemText primary="Kerko" onClick={this.handleRightClose}/>

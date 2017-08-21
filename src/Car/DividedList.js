@@ -43,19 +43,19 @@ function ListDividers(props) {
                     <div key={item.id}>
                         <ListItem className={classes.contentItem}>
                             <div className="row">
-                                <div className="col-md-3 col-sm-3">
+                                <div className="col-md-3 col-sm-3 col-xs-4">
                                     <div className="imageBlock">
                                         <img className="img-responsive" src="https://i.ebayimg.com/00/s/MTIwMVgxNjAw/z/w6YAAOSwax5Y0Ubi/$_20.jpg" alt="Opel Zafira A Comfort*LM*Iso*Temp*Dachr*MFL*EFH*TÜV "/>
                                     </div>
                                 </div>
-                                <div className="col-md-9 col-sm-9">
+                                <div className="col-md-9 col-sm-9 col-xs-8">
                                     <div className="row">
-                                        <div className="col-md-8 col-sm-8">
-                                            <Typography type="title" component="h3">
+                                        <div className="col-md-8 col-sm-8 col-xs-8">
+                                            {/*<Typography type="title" component="h3">*/}
                                                 {item.brand}
-                                            </Typography>
+                                            {/*</Typography>*/}
                                         </div>
-                                        <div className="col-md-4" style={{textAlign: 'right'}}>
+                                        <div className="col-md-4 col-sm-4 col-xs-4" style={{textAlign: 'right'}}>
                                             2.999
                                         </div>
                                     </div>
